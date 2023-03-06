@@ -111,7 +111,7 @@ const List<Extension> kDefaultExtensions = <Extension>[
   khrMaterialsVariantsExtension,
   khrMaterialsVolumeExtension,
   khrMeshQuantizationExtension,
-  khrTextureTransformExtension
+  khrTextureTransformExtension,
 ];
 
 // https://github.com/KhronosGroup/glTF/blob/main/extensions/Prefixes.md

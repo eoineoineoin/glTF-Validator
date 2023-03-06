@@ -1,0 +1,20 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "MSFT_rigid_bodies"
+    ],
+    "nodes": [
+        {
+            "extensions": {
+                "MSFT_rigid_bodies": {
+                    "rigidBody": {
+                        "linearVelocity": [0.0, 0.0],
+                        "angularVelocity": [0.0, 0.0]
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "MSFT_collision_primitives"
+    ],
+    "extensions": {
+        "MSFT_collision_primitives": {
+            "colliders": [
+               {
+                   "capsule": {
+                       "height": 1.0,
+                       "radius": 0.0
+                   }
+               },
+               {
+                   "capsule": {
+                       "height": 0.0,
+                       "radius": 0.0
+                   }
+               }
+            ]
+        }
+    }
+}

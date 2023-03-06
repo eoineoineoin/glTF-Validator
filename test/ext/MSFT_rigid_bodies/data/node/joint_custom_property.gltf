@@ -1,0 +1,37 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "MSFT_rigid_bodies"
+    ],
+    "extensions" : {
+        "MSFT_rigid_bodies" : {
+            "physicsJointLimits" : [
+                {
+                    "limits" : [
+                        {
+                            "linearAxes" : [ 0 ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "nodes": [
+        {
+            "extensions": {
+                "MSFT_rigid_bodies": {
+                    "joint": {
+                        "connectedNode": 1,
+                        "jointLimits": 0,
+                        "customProperty": true
+                    }
+                }
+            }
+        },
+        {
+            "translation": [0.0, 0.0, 0.0]
+        }
+    ]
+}

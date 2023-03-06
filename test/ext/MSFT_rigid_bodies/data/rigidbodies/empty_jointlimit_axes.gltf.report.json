@@ -1,0 +1,62 @@
+{
+    "uri": "test/ext/MSFT_rigid_bodies/data/rigidbodies/empty_jointlimit_axes.gltf",
+    "mimeType": "model/gltf+json",
+    "validatorVersion": "2.0.0-dev.3.9",
+    "issues": {
+        "numErrors": 4,
+        "numWarnings": 0,
+        "numInfos": 1,
+        "numHints": 0,
+        "messages": [
+            {
+                "code": "EMPTY_ENTITY",
+                "message": "Entity cannot be empty.",
+                "severity": 0,
+                "pointer": "/extensions/MSFT_rigid_bodies/physicsJointLimits/0/limits/0/linearAxes"
+            },
+            {
+                "code": "MSFT_RIGID_BODIES_JOINT_LIMITS_INCORRECT",
+                "message": "Joint limit should contain either linear or angular axes",
+                "severity": 0,
+                "pointer": "/extensions/MSFT_rigid_bodies/physicsJointLimits/0/limits/0"
+            },
+            {
+                "code": "EMPTY_ENTITY",
+                "message": "Entity cannot be empty.",
+                "severity": 0,
+                "pointer": "/extensions/MSFT_rigid_bodies/physicsJointLimits/0/limits/1/angularAxes"
+            },
+            {
+                "code": "MSFT_RIGID_BODIES_JOINT_LIMITS_INCORRECT",
+                "message": "Joint limit should contain either linear or angular axes",
+                "severity": 0,
+                "pointer": "/extensions/MSFT_rigid_bodies/physicsJointLimits/0/limits/1"
+            },
+            {
+                "code": "UNUSED_OBJECT",
+                "message": "This object may be unused.",
+                "severity": 2,
+                "pointer": "/extensions/MSFT_rigid_bodies/physicsJointLimits/0"
+            }
+        ],
+        "truncated": false
+    },
+    "info": {
+        "version": "2.0",
+        "extensionsUsed": [
+            "MSFT_rigid_bodies"
+        ],
+        "animationCount": 0,
+        "materialCount": 0,
+        "hasMorphTargets": false,
+        "hasSkins": false,
+        "hasTextures": false,
+        "hasDefaultScene": false,
+        "drawCallCount": 0,
+        "totalVertexCount": 0,
+        "totalTriangleCount": 0,
+        "maxUVs": 0,
+        "maxInfluences": 0,
+        "maxAttributes": 0
+    }
+}

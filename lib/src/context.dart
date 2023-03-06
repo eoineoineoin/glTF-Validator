@@ -19,6 +19,8 @@ library gltf.context;
 import 'dart:collection';
 
 import 'package:gltf/src/base/gltf_property.dart';
+import 'package:gltf/src/ext/MSFT_collision_primitives/MSFT_collision_primitives.dart';
+import 'package:gltf/src/ext/MSFT_rigid_bodies/MSFT_rigid_bodies.dart';
 import 'package:gltf/src/ext/extensions.dart';
 import 'package:gltf/src/gl.dart' as gl;
 
@@ -107,7 +109,10 @@ class Context {
   List<Map<String, Object>> _resourcesView;
   List<Map<String, Object>> get resources => _resourcesView;
 
-  final Set<Extension> _userExtensions = <Extension>{};
+  final Set<Extension> _userExtensions = <Extension>{
+    msftCollisionPrimitivesExtension,
+    msftRigidBodiesExtension
+  };
 
   final List<Issue> _issues = <Issue>[];
 

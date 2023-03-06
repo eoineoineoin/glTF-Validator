@@ -1,0 +1,28 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "MSFT_rigid_bodies"
+    ],
+    "nodes": [
+        {
+            "extensions": {
+                "MSFT_rigid_bodies": {
+                    "rigidBody": {
+                        "inverseInertiaTensor": [-1.0, -1.0, -1.0]
+                    }
+                }
+            }
+        },
+        {
+            "extensions": {
+                "MSFT_rigid_bodies": {
+                    "rigidBody": {
+                        "inverseInertiaTensor": [1.0]
+                    }
+                }
+            }
+        }
+    ]
+}

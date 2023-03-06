@@ -1,0 +1,29 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "MSFT_collision_primitives",
+        "MSFT_rigid_bodies"
+    ],
+    "extensions": {
+        "MSFT_collision_primitives": {
+            "colliders": [
+               {
+                   "sphere": {
+                       "radius": 1
+                   }
+               }
+            ]
+        }
+    },
+    "nodes": [
+        {
+            "extensions": {
+                "MSFT_rigid_bodies": {
+                    "collider": 1234
+                }
+            }
+        }
+    ]
+}
