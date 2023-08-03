@@ -9,6 +9,7 @@
         "MSFT_collision_primitives": {
             "colliders": [
                {
+                   "type": "convex",
                    "convex": {
                        "mesh": 1234
                    }

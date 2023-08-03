@@ -10,9 +10,6 @@ const Extension msftCollisionPrimitivesExtension =
 });
 
 const String COLLIDERS = 'colliders';
-const String COLLISION_SYSTEMS = 'collisionSystems';
-const String COLLIDE_WITH_SYSTEMS = 'collideWithSystems';
-const String NOT_COLLIDE_WITH_SYSTEMS = 'notCollideWithSystems';
 const String SPHERE = 'sphere';
 const String BOX = 'box';
 const String CAPSULE = 'capsule';
@@ -20,15 +17,23 @@ const String CYLINDER = 'cylinder';
 const String CONVEX = 'convex';
 const String TRIMESH = 'trimesh';
 const String RADIUS = 'radius';
+const String RADIUS_BOTTOM = 'radiusBottom';
+const String RADIUS_TOP = 'radiusTop';
 const String SIZE = 'size';
 const String HEIGHT = 'height';
 const String MESH = 'mesh';
 
 const List<String> MSFT_COLLISION_PRIMITIVES_GLTF_MEMBERS = <String>[COLLIDERS];
+const List<String> MSFT_COLLISION_PRIMITIVES_COLLIDER_TYPES = <String>[
+  SPHERE,
+  BOX,
+  CAPSULE,
+  CYLINDER,
+  CONVEX,
+  TRIMESH
+];
 const List<String> MSFT_COLLISION_PRIMITIVES_COLLIDER_MEMBERS = <String>[
-  COLLISION_SYSTEMS,
-  COLLIDE_WITH_SYSTEMS,
-  NOT_COLLIDE_WITH_SYSTEMS,
+  TYPE,
   SPHERE,
   BOX,
   CAPSULE,
@@ -39,11 +44,13 @@ const List<String> MSFT_COLLISION_PRIMITIVES_COLLIDER_MEMBERS = <String>[
 const List<String> MSFT_COLLISION_PRIMITIVES_SPHERE_MEMBERS = <String>[RADIUS];
 const List<String> MSFT_COLLISION_PRIMITIVES_BOX_MEMBERS = <String>[SIZE];
 const List<String> MSFT_COLLISION_PRIMITIVES_CAPSULE_MEMBERS = <String>[
-  RADIUS,
+  RADIUS_BOTTOM,
+  RADIUS_TOP,
   HEIGHT
 ];
 const List<String> MSFT_COLLISION_PRIMITIVES_CYLINDER_MEMBERS = <String>[
-  RADIUS,
+  RADIUS_BOTTOM,
+  RADIUS_TOP,
   HEIGHT
 ];
 const List<String> MSFT_COLLISION_PRIMITIVES_CONVEX_MEMBERS = <String>[MESH];
@@ -54,9 +61,6 @@ class ColliderError extends IssueType {
   static final compoundColliderError = ColliderError._(
       'MSFT_COLLISION_PRIMITIVES_COMPOUND_COLLIDER',
       (args) => 'Collider contains multiple different geometries');
-  static final noGeometryError = ColliderError._(
-      'MSFT_COLLISION_PRIMITIVES_MISSING_COLLIDER',
-      (args) => 'Collider contains no geometry');
   static final degenerateGeometry = ColliderError._(
       'MSFT_COLLISION_PRIMITIVES_DEGENERATE_COLLIDER',
       (args) => 'Collider geometry is degenerate',
@@ -122,20 +126,11 @@ class MsftCollisionPrimitivesGltf extends GltfProperty {
 }
 
 class MsftCollisionPrimitivesCollider extends GltfChildOfRootProperty {
-  final List<String> collisionSystems;
-  final List<String> collideWithSystems;
-  final List<String> notCollideWithSystems;
-
+  final String type;
   MsftCollisionPrimitivesColliderGeometry geom;
 
-  MsftCollisionPrimitivesCollider._(
-      this.collisionSystems,
-      this.collideWithSystems,
-      this.notCollideWithSystems,
-      this.geom,
-      String name,
-      Map<String, Object> extensions,
-      Object extras)
+  MsftCollisionPrimitivesCollider._(this.type, this.geom, String name,
+      Map<String, Object> extensions, Object extras)
       : super(name, extensions, extras);
 
   static MsftCollisionPrimitivesCollider fromMap(
@@ -144,13 +139,9 @@ class MsftCollisionPrimitivesCollider extends GltfChildOfRootProperty {
       checkMembers(map, MSFT_COLLISION_PRIMITIVES_COLLIDER_MEMBERS, context);
     }
 
-    final collisionSystems = getStringList(map, COLLISION_SYSTEMS, context);
-    final collideWithSystems =
-        getStringList(map, COLLIDE_WITH_SYSTEMS, context);
-    final notCollideWithSystems =
-        getStringList(map, NOT_COLLIDE_WITH_SYSTEMS, context);
+    final type = getString(map, TYPE, context,
+        list: MSFT_COLLISION_PRIMITIVES_COLLIDER_TYPES, req: true);
 
-    const typeNames = [SPHERE, BOX, CAPSULE, CYLINDER, CONVEX, TRIMESH];
     const typeFns = [
       MsftCollisionPrimitivesColliderSphere.fromMap,
       MsftCollisionPrimitivesColliderBox.fromMap,
@@ -159,30 +150,26 @@ class MsftCollisionPrimitivesCollider extends GltfChildOfRootProperty {
       MsftCollisionPrimitivesColliderConvex.fromMap,
       MsftCollisionPrimitivesColliderTrimesh.fromMap
     ];
-    assert(typeNames.length == typeFns.length);
+    assert(MSFT_COLLISION_PRIMITIVES_COLLIDER_TYPES.length == typeFns.length);
 
     MsftCollisionPrimitivesColliderGeometry geometry;
-    for (var i = 0; i < typeNames.length; i++) {
-      if (map.containsKey(typeNames[i])) {
+    for (var i = 0; i < typeFns.length; i++) {
+      if (map.containsKey(MSFT_COLLISION_PRIMITIVES_COLLIDER_TYPES[i])) {
         if (geometry != null) {
           context.addIssue(ColliderError.compoundColliderError,
-              name: typeNames[i]);
+              name: MSFT_COLLISION_PRIMITIVES_COLLIDER_TYPES[i]);
         }
-        geometry = getObjectFromInnerMap(map, typeNames[i], context, typeFns[i],
+        geometry = getObjectFromInnerMap(map,
+            MSFT_COLLISION_PRIMITIVES_COLLIDER_TYPES[i], context, typeFns[i],
             req: false);
       }
     }
 
     final extensions =
         getExtensions(map, MsftCollisionPrimitivesCollider, context);
-    if (geometry == null && (extensions == null || extensions.isEmpty)) {
-      context.addIssue(ColliderError.noGeometryError);
-    }
 
     return MsftCollisionPrimitivesCollider._(
-        collisionSystems,
-        collideWithSystems,
-        notCollideWithSystems,
+        type,
         geometry,
         getName(map, context),
         extensions,
@@ -273,11 +260,13 @@ class MsftCollisionPrimitivesColliderBox
 
 class MsftCollisionPrimitivesColliderCapsule
     extends MsftCollisionPrimitivesColliderGeometry {
-  final double radius;
+  final double radiusBottom;
+  final double radiusTop;
   final double height;
 
   MsftCollisionPrimitivesColliderCapsule._(
-      this.radius, this.height, Map<String, Object> extensions, Object extras)
+      this.radiusBottom, this.radiusTop, this.height,
+      Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
   static MsftCollisionPrimitivesColliderGeometry fromMap(
@@ -286,26 +275,28 @@ class MsftCollisionPrimitivesColliderCapsule
       checkMembers(map, MSFT_COLLISION_PRIMITIVES_CAPSULE_MEMBERS, context);
     }
 
-    final radius = getFloat(map, RADIUS, context, min: 0, def: 0.25);
+    final radiusBottom = getFloat(map, RADIUS_BOTTOM, context, min: 0, def: 0.25);
+    final radiusTop = getFloat(map, RADIUS_TOP, context, min: 0, def: 0.25);
     final height = getFloat(map, HEIGHT, context, min: 0, def: 0.5);
 
     if (context.validate) {
-      if (radius == 0) {
-        context.addIssue(ColliderError.degenerateGeometry, name: RADIUS);
+      if (radiusTop == 0 && radiusBottom == 0) {
+        context.addIssue(ColliderError.degenerateGeometry);
       }
       if (height == 0) {
         context.addIssue(ColliderError.degenerateGeometry, name: HEIGHT);
       }
 
-      if (height - radius * 2 < 0) {
+      if (height - (radiusBottom + radiusTop) < 0) {
         context.addIssue(ColliderError.inconsistentCapsuleGeometry);
-      } else if (height - radius * 2 < unitSumThresholdStep) {
+      } else if (height - (radiusBottom + radiusTop) < unitSumThresholdStep) {
         context.addIssue(ColliderError.degenerateGeometry);
       }
     }
 
     return MsftCollisionPrimitivesColliderCapsule._(
-        radius,
+        radiusBottom,
+        radiusTop,
         height,
         getExtensions(map, MsftCollisionPrimitivesColliderCapsule, context),
         getExtras(map, context));
@@ -314,11 +305,13 @@ class MsftCollisionPrimitivesColliderCapsule
 
 class MsftCollisionPrimitivesColliderCylinder
     extends MsftCollisionPrimitivesColliderGeometry {
-  final double radius;
+  final double radiusBottom;
+  final double radiusTop;
   final double height;
 
   MsftCollisionPrimitivesColliderCylinder._(
-      this.radius, this.height, Map<String, Object> extensions, Object extras)
+      this.radiusBottom, this.radiusTop, this.height,
+      Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
   static MsftCollisionPrimitivesColliderGeometry fromMap(
@@ -327,19 +320,21 @@ class MsftCollisionPrimitivesColliderCylinder
       checkMembers(map, MSFT_COLLISION_PRIMITIVES_CYLINDER_MEMBERS, context);
     }
 
-    final radius = getFloat(map, RADIUS, context, min: 0, def: 0.25);
+    final radiusBottom = getFloat(map, RADIUS_BOTTOM, context, min: 0, def: 0.25);
+    final radiusTop = getFloat(map, RADIUS_TOP, context, min: 0, def: 0.25);
     final height = getFloat(map, HEIGHT, context, min: 0, def: 0.5);
 
     if (context.validate) {
-      if (radius == 0) {
-        context.addIssue(ColliderError.degenerateGeometry, name: RADIUS);
+      if (radiusBottom == 0 && radiusTop == 0) {
+        context.addIssue(ColliderError.degenerateGeometry);
       }
       if (height == 0) {
         context.addIssue(ColliderError.degenerateGeometry, name: HEIGHT);
       }
     }
     return MsftCollisionPrimitivesColliderCylinder._(
-        radius,
+        radiusBottom,
+        radiusTop,
         height,
         getExtensions(map, MsftCollisionPrimitivesColliderCylinder, context),
         getExtras(map, context));

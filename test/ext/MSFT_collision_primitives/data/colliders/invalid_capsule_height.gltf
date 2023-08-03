@@ -9,9 +9,10 @@
         "MSFT_collision_primitives": {
             "colliders": [
                {
+                   "type": "capsule",
                    "capsule": {
                        "height": -1.0,
-                       "radius": 1.0
+                       "radiusTop": 1.0
                    }
                }
             ]

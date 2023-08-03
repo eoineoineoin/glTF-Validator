@@ -11,9 +11,8 @@
                {
                    "type": "cylinder",
                    "cylinder": {
-                       "height": -1.0,
-                       "radiusTop": 1.0,
-                       "radiusBottom": 1.0
+                       "height": 1.0,
+                       "radiusTop": -1.0
                    }
                }
             ]

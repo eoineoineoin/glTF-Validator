@@ -9,6 +9,7 @@
         "MSFT_collision_primitives": {
             "colliders": [
                {
+                   "type": "box",
                    "box": {
                        "size": [1.0, 1.0, -1.0]
                    }

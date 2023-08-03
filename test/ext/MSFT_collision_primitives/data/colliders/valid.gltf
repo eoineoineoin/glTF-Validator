@@ -9,11 +9,13 @@
         "MSFT_collision_primitives": {
             "colliders": [
                {
+                    "type": "sphere",
                     "sphere": {
                         "radius": 0.5
                     }
                 },
                 {
+                    "type": "box",
                     "box": {
                         "size": [
                             0.25,
@@ -23,23 +25,29 @@
                     }
                 },
                 {
+                    "type": "capsule",
                     "capsule": {
                         "height": 2,
-                        "radius": 0.5
+                        "radiusTop": 0.5,
+                        "radiusBottom": 0.5
                     }
                 },
                 {
+                    "type": "cylinder",
                     "cylinder": {
                         "height": 1,
-                        "radius": 0.5
+                        "radiusTop": 0.5,
+                        "radiusBottom": 0.5
                     }
                 },
                 {
+                    "type": "convex",
                     "convex": {
                         "mesh": 0
                     }
                 },
                 {
+                    "type": "trimesh",
                     "trimesh": {
                         "mesh": 0
                     }

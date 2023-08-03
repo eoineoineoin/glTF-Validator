@@ -12,13 +12,13 @@
                 "code": "MSFT_COLLISION_PRIMITIVES_DEGENERATE_COLLIDER",
                 "message": "Collider geometry is degenerate",
                 "severity": 2,
-                "pointer": "/extensions/MSFT_collision_primitives/colliders/0/capsule/radius"
+                "pointer": "/extensions/MSFT_collision_primitives/colliders/0/capsule"
             },
             {
                 "code": "MSFT_COLLISION_PRIMITIVES_DEGENERATE_COLLIDER",
                 "message": "Collider geometry is degenerate",
                 "severity": 2,
-                "pointer": "/extensions/MSFT_collision_primitives/colliders/1/capsule/radius"
+                "pointer": "/extensions/MSFT_collision_primitives/colliders/1/capsule"
             },
             {
                 "code": "MSFT_COLLISION_PRIMITIVES_DEGENERATE_COLLIDER",

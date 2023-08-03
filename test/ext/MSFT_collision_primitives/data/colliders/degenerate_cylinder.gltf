@@ -9,15 +9,19 @@
         "MSFT_collision_primitives": {
             "colliders": [
                {
+                   "type": "cylinder",
                    "cylinder": {
                        "height": 1.0,
-                       "radius": 0.0
+                       "radiusTop": 0.0,
+                       "radiusBottom": 0.0
                    }
                },
                {
+                   "type": "cylinder",
                    "cylinder": {
                        "height": 0.0,
-                       "radius": 1.0
+                       "radiusTop": 1.0,
+                       "radiusBottom": 1.0
                    }
                }
             ]

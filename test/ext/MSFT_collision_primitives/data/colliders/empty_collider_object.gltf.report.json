@@ -9,8 +9,8 @@
         "numHints": 0,
         "messages": [
             {
-                "code": "MSFT_COLLISION_PRIMITIVES_MISSING_COLLIDER",
-                "message": "Collider contains no geometry",
+                "code": "UNDEFINED_PROPERTY",
+                "message": "Property 'type' must be defined.",
                 "severity": 0,
                 "pointer": "/extensions/MSFT_collision_primitives/colliders/0"
             },

@@ -9,6 +9,7 @@
         "MSFT_collision_primitives": {
             "colliders": [
                {
+                   "type": "sphere",
                    "sphere": {
                        "radius": -1.0
                    }

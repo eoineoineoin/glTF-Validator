@@ -9,6 +9,7 @@
         "MSFT_collision_primitives": {
             "colliders": [
                {
+                   "type": "trimesh",
                    "trimesh": {
                        "mesh": 1234
                    }
