@@ -31,6 +31,10 @@ class RigidBodiesError extends IssueType {
       'MSFT_RIGID_BODIES_JOINT_LIMITS_INVALID_AXIS',
       (args) => 'Indices of limited axes should be in range [0,3)');
 
+  static final collideAndNotCollideSpecified = RigidBodiesError._(
+      'MSFT_RIGID_BODIES_COLLISION_FILTER_INVALID_FILTER_SET',
+      (args) => 'Only one of collide-with and not-collide-with should be provided');
+
   RigidBodiesError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
       : super(type, message, severity);
@@ -38,6 +42,7 @@ class RigidBodiesError extends IssueType {
 
 const String PHYSICS_MATERIALS = 'physicsMaterials';
 const String PHYSICS_JOINT_LIMITS = 'physicsJointLimits';
+const String COLLISION_FILTERS = 'collisionFilters';
 const String STATIC_FRICTION = 'staticFriction';
 const String DYNAMIC_FRICTION = 'dynamicFriction';
 const String RESTITUTION = 'restitution';
@@ -47,24 +52,26 @@ const String AVERAGE = 'AVERAGE';
 const String MINIMUM = 'MINIMUM';
 const String MAXIMUM = 'MAXIMUM';
 const String MULTIPLY = 'MULTIPLY';
-const String RIGID_BODY = 'rigidBody';
+const String COLLISION_SYSTEMS = 'collisionSystems';
+const String COLLIDE_WITH_SYSTEMS = 'collideWithSystems';
+const String NOT_COLLIDE_WITH_SYSTEMS = 'notCollideWithSystems';
 const String COLLIDER = 'collider';
 const String PHYSICS_MATERIAL = 'physicsMaterial';
+const String COLLISION_FILTER = 'collisionFilter';
+const String TRIGGER = 'trigger';
 const String JOINT = 'joint';
+const String MOTION = 'motion';
 const String IS_KINEMATIC = 'isKinematic';
-const String INVERSE_MASS = 'inverseMass';
+const String MASS = 'mass';
 const String CENTER_OF_MASS = 'centerOfMass';
 const String INERTIA_ORIENTATION = 'inertiaOrientation';
-const String INVERSE_INERTIA_TENSOR = 'inverseInertiaTensor';
+const String INERTIA_DIAGONAL = 'inertiaDiagonal';
 const String LINEAR_VELOCITY = 'linearVelocity';
 const String ANGULAR_VELOCITY = 'angularVelocity';
 const String GRAVITY_FACTOR = 'gravityFactor';
 const String CONNECTED_NODE = 'connectedNode';
 const String JOINT_LIMITS = 'jointLimits';
 const String ENABLE_COLLISION = 'enableCollision';
-const String COLLIDERS = 'colliders';
-const String MIN = 'min';
-const String MAX = 'max';
 const String SPRING_CONSTANT = 'springConstant';
 const String SPRING_DAMPING = 'springDamping';
 const String LINEAR_AXES = 'linearAxes';
@@ -73,7 +80,8 @@ const String LIMITS = 'limits';
 
 const List<String> MSFT_RIGID_BODIES_GLTF_MEMBERS = <String>[
   PHYSICS_MATERIALS,
-  PHYSICS_JOINT_LIMITS
+  PHYSICS_JOINT_LIMITS,
+  COLLISION_FILTERS
 ];
 const List<String> MSFT_RIGID_BODIES_PHYSICS_MATERIAL_MEMBERS = <String>[
   STATIC_FRICTION,
@@ -88,27 +96,12 @@ const List<String> MSFT_MATERIAL_COMBINE_MODES = <String>[
   MAXIMUM,
   MULTIPLY
 ];
-const List<String> MSFT_RIGID_BODIES_NODE_MEMBERS = <String>[
-  RIGID_BODY,
-  COLLIDER,
-  PHYSICS_MATERIAL,
-  JOINT
+const List<String> MSFT_RIGIBODIES_COLLISION_FILTER_MEMBERS = <String>[
+  COLLISION_SYSTEMS,
+  COLLIDE_WITH_SYSTEMS,
+  NOT_COLLIDE_WITH_SYSTEMS
 ];
-const List<String> MSFT_RIGID_BODIES_RIGID_BODY_MEMBERS = <String>[
-  IS_KINEMATIC,
-  INVERSE_MASS,
-  CENTER_OF_MASS,
-  INERTIA_ORIENTATION,
-  INVERSE_INERTIA_TENSOR,
-  LINEAR_VELOCITY,
-  ANGULAR_VELOCITY,
-  GRAVITY_FACTOR
-];
-const List<String> MSFT_RIGID_BODIES_JOINT_MEMBERS = <String>[
-  CONNECTED_NODE,
-  JOINT_LIMITS,
-  ENABLE_COLLISION
-];
+const List<String> MSFT_RIGID_BODIES_JOINT_LIMIT_SET_MEMBERS = <String>[LIMITS];
 const List<String> MSFT_RIGID_BODIES_JOINT_LIMIT_MEMBERS = <String>[
   MIN,
   MAX,
@@ -117,13 +110,43 @@ const List<String> MSFT_RIGID_BODIES_JOINT_LIMIT_MEMBERS = <String>[
   LINEAR_AXES,
   ANGULAR_AXES
 ];
-const List<String> MSFT_RIGID_BODIES_JOINT_LIMIT_SET_MEMBERS = <String>[LIMITS];
+const List<String> MSFT_RIGID_BODIES_NODE_MEMBERS = <String>[
+  MOTION,
+  COLLIDER,
+  TRIGGER,
+  JOINT
+];
+const List<String> MSFT_RIGID_BODIES_MOTION_MEMBERS = <String>[
+  IS_KINEMATIC,
+  MASS,
+  CENTER_OF_MASS,
+  INERTIA_ORIENTATION,
+  INERTIA_DIAGONAL,
+  LINEAR_VELOCITY,
+  ANGULAR_VELOCITY,
+  GRAVITY_FACTOR
+];
+const List<String> MSFT_RIGID_BODIES_COLLIDER_MEMBERS = <String>[
+  COLLIDER,
+  PHYSICS_MATERIAL,
+  COLLISION_FILTER
+];
+const List<String> MSFT_RIGID_BODIES_TRIGGER_MEMBERS = <String>[
+  COLLIDER,
+  COLLISION_FILTER
+];
+const List<String> MSFT_RIGID_BODIES_JOINT_MEMBERS = <String>[
+  CONNECTED_NODE,
+  JOINT_LIMITS,
+  ENABLE_COLLISION
+];
 
 class MsftRigidBodiesGltf extends GltfProperty {
   final SafeList<MsftRigidBodiesPhysicsMaterial> physicsMaterials;
+  final SafeList<MsftRigidBodiesCollisionFilter> collisionFilters;
   final SafeList<MsftRigidBodiesPhysicsJointLimitSet> jointLimits;
 
-  MsftRigidBodiesGltf._(this.physicsMaterials, this.jointLimits,
+  MsftRigidBodiesGltf._(this.physicsMaterials, this.collisionFilters, this.jointLimits,
       Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
@@ -168,8 +191,26 @@ class MsftRigidBodiesGltf extends GltfProperty {
       }
     }
 
+    var filters = SafeList<MsftRigidBodiesCollisionFilter>.empty(COLLISION_FILTERS);
+    if (map.containsKey(COLLISION_FILTERS)) {
+      final filterListMaps = getMapList(map, COLLISION_FILTERS, context);
+      if (filterListMaps != null) {
+        filters = SafeList<MsftRigidBodiesCollisionFilter>(
+            filterListMaps.length, COLLISION_FILTERS);
+        context.path.add(COLLISION_FILTERS);
+        for (var i = 0; i < filterListMaps.length; i++) {
+            context.path.add(i.toString());
+            filters[i] = MsftRigidBodiesCollisionFilter.fromMap(
+                filterListMaps[i], context);
+            context.path.removeLast();
+        }
+        context.path.removeLast();
+      }
+    }
+
     return MsftRigidBodiesGltf._(
         materials,
+        filters,
         jointLimits,
         getExtensions(map, MsftRigidBodiesGltf, context),
         getExtras(map, context));
@@ -177,40 +218,34 @@ class MsftRigidBodiesGltf extends GltfProperty {
 
   @override
   void link(Gltf gltf, Context context) {
-    context.path.add(PHYSICS_MATERIALS);
-    context.extensionCollections[physicsMaterials] =
-        context.path.toList(growable: false);
-    physicsMaterials.forEachWithIndices((i, material) {
-      context.path.add(i.toString());
-      material.link(gltf, context);
-      context.path.removeLast();
-    });
-    context.path.removeLast();
 
-    context.path.add(PHYSICS_JOINT_LIMITS);
-    context.extensionCollections[jointLimits] =
-        context.path.toList(growable: false);
-    jointLimits.forEachWithIndices((i, limitSet) {
-      context.path.add(i.toString());
-      limitSet.link(gltf, context);
-      context.path.removeLast();
-    });
-    context.path.removeLast();
+    void linkListItems<T extends GltfProperty>(String name, SafeList<T> list) {
+        context.path.add(name);
+        context.extensionCollections[list] =
+            context.path.toList(growable: false);
+        list.forEachWithIndices((i, item) {
+          context.path.add(i.toString());
+          item.link(gltf, context);
+          context.path.removeLast();
+        });
+        context.path.removeLast();
+    }
+    linkListItems(PHYSICS_MATERIALS, physicsMaterials);
+    linkListItems(COLLISION_FILTERS, collisionFilters);
+    linkListItems(PHYSICS_JOINT_LIMITS, jointLimits);
   }
 }
 
 class MsftRigidBodiesNode extends GltfProperty {
-  MsftRigidBodiesRigidBody rigidBody;
-  final int _colliderIndex;
-  MsftCollisionPrimitivesCollider _collider;
-  final int _physicsMaterialIndex;
-  MsftRigidBodiesPhysicsMaterial _material;
+  MsftRigidBodiesMotion motion;
+  MsftRigidBodiesCollider collider;
+  MsftRigidBodiesTrigger trigger;
   MsftRigidBodiesJoint joint;
 
   MsftRigidBodiesNode._(
-      this.rigidBody,
-      this._colliderIndex,
-      this._physicsMaterialIndex,
+      this.motion,
+      this.collider,
+      this.trigger,
       this.joint,
       Map<String, Object> extensions,
       Object extras)
@@ -221,19 +256,23 @@ class MsftRigidBodiesNode extends GltfProperty {
       checkMembers(map, MSFT_RIGID_BODIES_NODE_MEMBERS, context);
     }
 
-    final rigidBody = getObjectFromInnerMap(
-        map, RIGID_BODY, context, MsftRigidBodiesRigidBody.fromMap,
+    final motion = getObjectFromInnerMap(
+        map, MOTION, context, MsftRigidBodiesMotion.fromMap,
         req: false);
-    final collider = getIndex(map, COLLIDER, context, req: false);
-    final material = getIndex(map, PHYSICS_MATERIAL, context, req: false);
+    final collider = getObjectFromInnerMap(
+        map, COLLIDER, context, MsftRigidBodiesCollider.fromMap,
+        req: false);
+    final trigger = getObjectFromInnerMap(
+        map, TRIGGER, context, MsftRigidBodiesTrigger.fromMap,
+        req: false);
     final joint = getObjectFromInnerMap(
         map, JOINT, context, MsftRigidBodiesJoint.fromMap,
         req: false);
 
     return MsftRigidBodiesNode._(
-        rigidBody,
+        motion,
         collider,
-        material,
+        trigger,
         joint,
         getExtensions(map, MsftRigidBodiesNode, context),
         getExtras(map, context));
@@ -241,72 +280,190 @@ class MsftRigidBodiesNode extends GltfProperty {
 
   @override
   void link(Gltf gltf, Context context) {
-    final collisionPrimitivesExtension =
-        gltf.extensions[msftCollisionPrimitivesExtension.name];
-    if (collisionPrimitivesExtension is MsftCollisionPrimitivesGltf) {
-      _collider = collisionPrimitivesExtension.colliders[_colliderIndex];
-      if (_colliderIndex != -1) {
-        if (context.validate && _collider == null) {
-          context.addIssue(LinkError.unresolvedReference,
-              name: COLLIDER, args: [_colliderIndex]);
-        } else if (_collider != null) {
-          _collider.markAsUsed();
+    void linkObject<T extends GltfProperty>(String name, T obj) {
+        if (obj != null) {
+            context.path.add(name);
+            obj.link(gltf, context);
+            context.path.removeLast();
         }
-      }
-    } else if (context.validate && _colliderIndex >= 0) {
-      context.addIssue(SchemaError.unsatisfiedDependency,
-          args: ['/$EXTENSIONS/${msftCollisionPrimitivesExtension.name}']);
     }
+    linkObject(MOTION, motion);
+    linkObject(COLLIDER, collider);
+    linkObject(TRIGGER, trigger);
+    linkObject(JOINT, joint);
+  }
+}
 
-    final rigidBodiesExtension = gltf.extensions[msftRigidBodiesExtension.name];
-    if (rigidBodiesExtension is MsftRigidBodiesGltf) {
-      _material = rigidBodiesExtension.physicsMaterials[_physicsMaterialIndex];
-      if (_physicsMaterialIndex != -1) {
-        if (context.validate && _material == null) {
-          context.addIssue(LinkError.unresolvedReference,
-              name: PHYSICS_MATERIAL, args: [_physicsMaterialIndex]);
-        } else if (material != null) {
-          _material.markAsUsed();
-        }
+class MsftRigidBodiesCollider extends GltfProperty {
+  final int _colliderIndex;
+  MsftCollisionPrimitivesCollider _collider;
+  final int _physicsMaterialIndex;
+  MsftRigidBodiesPhysicsMaterial _material;
+  final int _collisionFilterIndex;
+  MsftRigidBodiesCollisionFilter _collisionFilter;
+
+  MsftRigidBodiesCollider._(
+      this._colliderIndex,
+      this._physicsMaterialIndex,
+      this._collisionFilterIndex,
+      Map<String, Object> extensions,
+      Object extras)
+      : super(extensions, extras);
+
+  static MsftRigidBodiesCollider fromMap(Map<String, Object> map, Context context) {
+      if (context.validate) {
+          checkMembers(map, MSFT_RIGID_BODIES_COLLIDER_MEMBERS, context);
       }
-    } else if (context.validate && _physicsMaterialIndex >= 0) {
-      context.addIssue(SchemaError.unsatisfiedDependency,
-          args: ['/$EXTENSIONS/${msftRigidBodiesExtension.name}']);
-    }
 
-    if (rigidBody != null) {
-      context.path.add(RIGID_BODY);
-      rigidBody.link(gltf, context);
+      final collider = getIndex(map, COLLIDER, context, req: true);
+      final material = getIndex(map, PHYSICS_MATERIAL, context, req: false);
+      final filter = getIndex(map, COLLISION_FILTER, context, req: false);
+      return MsftRigidBodiesCollider._(collider, material, filter,
+          getExtensions(map, MsftRigidBodiesCollider, context),
+          getExtras(map, context));
+  }
+
+  @override
+  void link(Gltf gltf, Context context) {
+    _collider = getColliderByIndex(gltf, context, _colliderIndex);
+    if (_collider != null) {
+      context.path.add(COLLIDER);
+      _collider.link(gltf, context);
       context.path.removeLast();
     }
-
-    if (joint != null) {
-      context.path.add(JOINT);
-      joint.link(gltf, context);
+    _collisionFilter = getCollisionFilterByIndex(gltf, context, _collisionFilterIndex);
+    if (_collisionFilter != null) {
+      context.path.add(COLLISION_FILTER);
+      _collisionFilter.link(gltf, context);
+      context.path.removeLast();
+    }
+    _material = getPhysicsMaterialByIndex(gltf, context, _physicsMaterialIndex);
+    if (_material != null) {
+      context.path.add(PHYSICS_MATERIAL);
+      _material.link(gltf, context);
       context.path.removeLast();
     }
   }
-
-  MsftCollisionPrimitivesCollider get collider => _collider;
-  MsftRigidBodiesPhysicsMaterial get material => _material;
 }
 
-class MsftRigidBodiesRigidBody extends GltfProperty {
+class MsftRigidBodiesTrigger extends GltfProperty {
+    final int _colliderIndex;
+    MsftCollisionPrimitivesCollider _collider;
+    final int _collisionFilterIndex;
+    MsftRigidBodiesCollisionFilter _collisionFilter;
+
+  MsftRigidBodiesTrigger._(
+      this._colliderIndex,
+      this._collisionFilterIndex,
+      Map<String, Object> extensions,
+      Object extras)
+      : super(extensions, extras);
+
+  static MsftRigidBodiesTrigger fromMap(Map<String, Object> map, Context context) {
+      if (context.validate) {
+          checkMembers(map, MSFT_RIGID_BODIES_TRIGGER_MEMBERS, context);
+      }
+
+      final collider = getIndex(map, COLLIDER, context, req: true);
+      final filter = getIndex(map, COLLISION_FILTER, context, req: false);
+      return MsftRigidBodiesTrigger._(collider, filter,
+          getExtensions(map, MsftRigidBodiesTrigger, context),
+          getExtras(map, context));
+  }
+
+  @override
+  void link(Gltf gltf, Context context) {
+    _collider = getColliderByIndex(gltf, context, _colliderIndex);
+    if (_collider != null) {
+      context.path.add(COLLIDER);
+      _collider.link(gltf, context);
+      context.path.removeLast();
+    }
+    _collisionFilter = getCollisionFilterByIndex(gltf, context, _collisionFilterIndex);
+    if (_collisionFilter != null) {
+      context.path.add(COLLISION_FILTER);
+      _collisionFilter.link(gltf, context);
+      context.path.removeLast();
+    }
+  }
+}
+
+MsftCollisionPrimitivesCollider getColliderByIndex(Gltf gltf, Context context, int colliderIndex) {
+  final collisionPrimitivesExtension = gltf.extensions[msftCollisionPrimitivesExtension.name];
+  if (collisionPrimitivesExtension is MsftCollisionPrimitivesGltf) {
+    final collider = collisionPrimitivesExtension.colliders[colliderIndex];
+    if (colliderIndex != -1) {
+      if (context.validate && collider == null) {
+        context.addIssue(LinkError.unresolvedReference,
+            name: COLLIDER, args: [colliderIndex]);
+      } else if (collider != null) {
+        collider.markAsUsed();
+      }
+    }
+    return collider;
+  } else if (context.validate && colliderIndex >= 0) {
+    context.addIssue(SchemaError.unsatisfiedDependency,
+        args: ['/$EXTENSIONS/${msftCollisionPrimitivesExtension.name}']);
+  }
+  return null;
+}
+
+MsftRigidBodiesCollisionFilter getCollisionFilterByIndex(Gltf gltf, Context context, int filterIndex) {
+  final rigidBodiesExtension = gltf.extensions[msftRigidBodiesExtension.name];
+  if (rigidBodiesExtension is MsftRigidBodiesGltf) {
+    final filter = rigidBodiesExtension.collisionFilters[filterIndex];
+    if (filterIndex != -1) {
+      if (context.validate && filter == null) {
+        context.addIssue(LinkError.unresolvedReference,
+            name: COLLISION_FILTER, args: [filterIndex]);
+      } else if (filter != null) {
+        filter.markAsUsed();
+      }
+    }
+    return filter;
+  } else if (context.validate && filterIndex >= 0) {
+    context.addIssue(SchemaError.unsatisfiedDependency,
+        args: ['/$EXTENSIONS/${msftRigidBodiesExtension.name}']);
+  }
+  return null;
+}
+
+MsftRigidBodiesPhysicsMaterial getPhysicsMaterialByIndex(Gltf gltf, Context context, int materialIndex) {
+  final rigidBodiesExtension = gltf.extensions[msftRigidBodiesExtension.name];
+  if (rigidBodiesExtension is MsftRigidBodiesGltf) {
+    final material = rigidBodiesExtension.physicsMaterials[materialIndex];
+    if (materialIndex != -1) {
+      if (context.validate && material == null) {
+        context.addIssue(LinkError.unresolvedReference,
+            name: PHYSICS_MATERIAL, args: [materialIndex]);
+      } else if (material != null) {
+        material.markAsUsed();
+      }
+    }
+    return material;
+  } else if (context.validate && materialIndex >= 0) {
+    context.addIssue(SchemaError.unsatisfiedDependency,
+        args: ['/$EXTENSIONS/${msftRigidBodiesExtension.name}']);
+  }
+  return null;
+}
+
+class MsftRigidBodiesMotion extends GltfProperty {
   bool isKinematic;
-  double inverseMass;
+  double mass;
   Vector3 centerOfMass;
+  Vector3 inertiaDiagonal;
   Quaternion inertiaOrientation;
-  Vector3 inverseInertia;
   Vector3 linearVelocity;
   Vector3 angularVelocity;
   double gravityFactor;
 
-  MsftRigidBodiesRigidBody._(
+  MsftRigidBodiesMotion._(
       this.isKinematic,
-      this.inverseMass,
+      this.mass,
       this.centerOfMass,
+      this.inertiaDiagonal,
       this.inertiaOrientation,
-      this.inverseInertia,
       this.linearVelocity,
       this.angularVelocity,
       this.gravityFactor,
@@ -314,15 +471,15 @@ class MsftRigidBodiesRigidBody extends GltfProperty {
       Object extras)
       : super(extensions, extras);
 
-  static MsftRigidBodiesRigidBody fromMap(
+  static MsftRigidBodiesMotion fromMap(
       Map<String, Object> map, Context context) {
     if (context.validate) {
-      checkMembers(map, MSFT_RIGID_BODIES_RIGID_BODY_MEMBERS, context);
+      checkMembers(map, MSFT_RIGID_BODIES_MOTION_MEMBERS, context);
     }
 
     final isKinematic = getBool(map, IS_KINEMATIC, context);
-    final inverseMass =
-        getFloat(map, INVERSE_MASS, context, req: false, def: 1, min: 0);
+    final mass =
+        getFloat(map, MASS, context, req: false, def: 1, min: 0);
 
     final comList = getFloatList(map, CENTER_OF_MASS, context,
         lengthsList: const [3], def: const [0.0, 0.0, 0.0]);
@@ -345,10 +502,10 @@ class MsftRigidBodiesRigidBody extends GltfProperty {
       }
     }
 
-    final inverseInertiaList = getFloatList(
-        map, INVERSE_INERTIA_TENSOR, context,
+    final inertiaDiagList = getFloatList(
+        map, INERTIA_DIAGONAL, context,
         min: 0, lengthsList: const [3], def: [1.0, 1.0, 1.0]);
-    final inverseInertia = _listToVec3(inverseInertiaList);
+    final inertiaDiagonal = _listToVec3(inertiaDiagList);
 
     final linearVelocityList = getFloatList(map, LINEAR_VELOCITY, context,
         lengthsList: const [3], def: [0.0, 0.0, 0.0]);
@@ -361,12 +518,12 @@ class MsftRigidBodiesRigidBody extends GltfProperty {
     final gravityFactor =
         getFloat(map, GRAVITY_FACTOR, context, req: false, def: 1);
 
-    return MsftRigidBodiesRigidBody._(
+    return MsftRigidBodiesMotion._(
         isKinematic,
-        inverseMass,
+        mass,
         com,
+        inertiaDiagonal,
         inertiaOrientation,
-        inverseInertia,
         linearVelocity,
         angularVelocity,
         gravityFactor,
@@ -595,6 +752,53 @@ class MsftRigidBodiesPhysicsJointLimitSet extends GltfChildOfRootProperty {
         limits,
         getName(map, context),
         getExtensions(map, MsftRigidBodiesPhysicsJointLimitSet, context),
+        getExtras(map, context));
+  }
+}
+
+class MsftRigidBodiesCollisionFilter extends GltfChildOfRootProperty {
+  SafeList<String> collisionSystems;
+  SafeList<String> collideWithSystems;
+  SafeList<String> notCollideWithSystems;
+
+  MsftRigidBodiesCollisionFilter._(
+     this.collisionSystems, this.collideWithSystems, this.notCollideWithSystems,
+        String name, Map<String, Object> extensions, Object extras)
+        : super(name, extensions, extras);
+
+  static MsftRigidBodiesCollisionFilter fromMap(
+      Map<String, Object> map, Context context) {
+    if (context.validate) {
+      checkMembers(map, MSFT_RIGIBODIES_COLLISION_FILTER_MEMBERS, context);
+
+      if (map.containsKey(COLLIDE_WITH_SYSTEMS)
+          && map.containsKey(NOT_COLLIDE_WITH_SYSTEMS)) {
+        context.addIssue(RigidBodiesError.collideAndNotCollideSpecified);
+      }
+    }
+
+    SafeList<String> extractSystemList(Map<String, Object> map, String keyName) {
+        var listOut = SafeList<String>.empty(keyName);
+        if (map.containsKey(keyName)) {
+          final systemList = getStringList(map, keyName, context, allowEmpty: true);
+          listOut = SafeList<String>(systemList.length, keyName);
+          for (var i = 0; i < systemList.length; i++) {
+              listOut[i] = systemList[i];
+          }
+        }
+        return listOut;
+    }
+
+    var collisionSystems = extractSystemList(map, COLLISION_SYSTEMS);
+    var collideWithSystems = extractSystemList(map, COLLIDE_WITH_SYSTEMS);
+    var notCollideWithSystems = extractSystemList(map, NOT_COLLIDE_WITH_SYSTEMS);
+
+    return MsftRigidBodiesCollisionFilter._(
+        collisionSystems,
+        collideWithSystems,
+        notCollideWithSystems,
+        getName(map, context),
+        getExtensions(map, MsftRigidBodiesCollisionFilter, context),
         getExtras(map, context));
   }
 }

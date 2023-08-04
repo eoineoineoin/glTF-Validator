@@ -1,0 +1,18 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "MSFT_rigid_bodies"
+    ],
+    "extensions": {
+        "MSFT_rigid_bodies": {
+            "collisionFilters": [
+                {
+                    "collideWithSystems": [],
+                    "notCollideWithSystems": []
+                }
+             ]
+        }
+    }
+}

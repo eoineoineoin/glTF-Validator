@@ -12,13 +12,13 @@
                 "code": "ARRAY_LENGTH_NOT_IN_LIST",
                 "message": "Invalid array length 2. Valid lengths are: (3).",
                 "severity": 0,
-                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/rigidBody/linearVelocity"
+                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/motion/linearVelocity"
             },
             {
                 "code": "ARRAY_LENGTH_NOT_IN_LIST",
                 "message": "Invalid array length 2. Valid lengths are: (3).",
                 "severity": 0,
-                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/rigidBody/angularVelocity"
+                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/motion/angularVelocity"
             },
             {
                 "code": "UNUSED_OBJECT",

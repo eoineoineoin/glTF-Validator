@@ -9,7 +9,7 @@
         {
             "extensions": {
                 "MSFT_rigid_bodies": {
-                    "rigidBody": {
+                    "motion": {
                         "inertiaOrientation": [0.0, 0.0, 0.0, 2.0]
                     }
                 }
@@ -18,7 +18,7 @@
         {
             "extensions": {
                 "MSFT_rigid_bodies": {
-                    "rigidBody": {
+                    "motion": {
                         "inertiaOrientation": [0.0, 0.0, 1.0]
                     }
                 }

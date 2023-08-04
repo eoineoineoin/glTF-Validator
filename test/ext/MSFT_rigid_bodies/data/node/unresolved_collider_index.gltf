@@ -10,6 +10,7 @@
         "MSFT_collision_primitives": {
             "colliders": [
                {
+                   "type": "sphere",
                    "sphere": {
                        "radius": 1
                    }
@@ -21,7 +22,9 @@
         {
             "extensions": {
                 "MSFT_rigid_bodies": {
-                    "collider": 1234
+                    "collider": {
+                        "collider": 1234
+                    }
                 }
             }
         }

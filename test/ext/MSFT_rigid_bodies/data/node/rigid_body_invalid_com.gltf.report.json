@@ -12,7 +12,7 @@
                 "code": "ARRAY_LENGTH_NOT_IN_LIST",
                 "message": "Invalid array length 2. Valid lengths are: (3).",
                 "severity": 0,
-                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/rigidBody/centerOfMass"
+                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/motion/centerOfMass"
             },
             {
                 "code": "UNUSED_OBJECT",

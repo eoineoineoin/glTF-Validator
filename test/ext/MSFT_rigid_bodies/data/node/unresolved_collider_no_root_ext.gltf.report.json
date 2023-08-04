@@ -12,7 +12,7 @@
                 "code": "UNSATISFIED_DEPENDENCY",
                 "message": "Dependency failed. '/extensions/MSFT_collision_primitives' must be defined.",
                 "severity": 0,
-                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies"
+                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/collider"
             },
             {
                 "code": "UNUSED_OBJECT",
@@ -26,6 +26,7 @@
     "info": {
         "version": "2.0",
         "extensionsUsed": [
+            "MSFT_collision_primitives",
             "MSFT_rigid_bodies"
         ],
         "animationCount": 0,

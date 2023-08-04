@@ -2,6 +2,8 @@
     "rigidbodies": {
         "name": "root.MSFT_rigid_bodies",
         "tests": {
+            "collisionfilter_collide_notCollide.gltf": "Filter specifies both collide-with and not-collide-with",
+            "collisionfilter_empty_collisionFilters.gltf": "Empty collision filters array",
             "empty_jointlimit_axes.gltf": "Joints with empty limited axes",
             "empty_jointlimit_object.gltf": "Empty joint limit object",
             "empty_jointlimits_array.gltf": "Empty array of joint limits",

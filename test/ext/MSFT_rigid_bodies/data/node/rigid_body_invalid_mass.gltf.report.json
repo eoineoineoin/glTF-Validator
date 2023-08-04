@@ -12,7 +12,7 @@
                 "code": "VALUE_NOT_IN_RANGE",
                 "message": "Value -1.0 is out of range.",
                 "severity": 0,
-                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/rigidBody/inverseMass"
+                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/motion/mass"
             },
             {
                 "code": "UNUSED_OBJECT",

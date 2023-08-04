@@ -9,7 +9,7 @@
         {
             "extensions": {
                 "MSFT_rigid_bodies": {
-                    "rigidBody": {
+                    "motion": {
                         "centerOfMass": [0.0, 0.0]
                     }
                 }

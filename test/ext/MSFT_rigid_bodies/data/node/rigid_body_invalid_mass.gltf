@@ -9,8 +9,8 @@
         {
             "extensions": {
                 "MSFT_rigid_bodies": {
-                    "rigidBody": {
-                        "inverseMass": -1.0
+                    "motion": {
+                        "mass": -1.0
                     }
                 }
             }

@@ -12,7 +12,7 @@
                 "code": "UNRESOLVED_REFERENCE",
                 "message": "Unresolved reference: 1234.",
                 "severity": 0,
-                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/collider"
+                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/collider/collider"
             },
             {
                 "code": "UNUSED_OBJECT",

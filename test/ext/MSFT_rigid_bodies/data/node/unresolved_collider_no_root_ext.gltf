@@ -3,13 +3,16 @@
         "version": "2.0"
     },
     "extensionsUsed": [
+        "MSFT_collision_primitives",
         "MSFT_rigid_bodies"
     ],
     "nodes": [
         {
             "extensions": {
                 "MSFT_rigid_bodies": {
-                    "collider": 1234
+                    "collider": {
+                        "collider": 1234
+                    }
                 }
             }
         }

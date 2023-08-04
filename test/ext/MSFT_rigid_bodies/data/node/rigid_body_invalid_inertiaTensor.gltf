@@ -9,8 +9,8 @@
         {
             "extensions": {
                 "MSFT_rigid_bodies": {
-                    "rigidBody": {
-                        "inverseInertiaTensor": [-1.0, -1.0, -1.0]
+                    "motion": {
+                        "inertiaDiagonal": [-1.0, -1.0, -1.0]
                     }
                 }
             }
@@ -18,8 +18,8 @@
         {
             "extensions": {
                 "MSFT_rigid_bodies": {
-                    "rigidBody": {
-                        "inverseInertiaTensor": [1.0]
+                    "motion": {
+                        "inertiaDiagonal": [1.0]
                     }
                 }
             }

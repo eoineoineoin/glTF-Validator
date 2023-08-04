@@ -16,6 +16,15 @@
                     "restitutionCombine": "MULTIPLY"
                 }
             ],
+            "collisionFilters": [
+                {
+                    "collisionSystems": ["a", "b"],
+                    "collideWithSystems": ["c", "d"]
+                },
+                {
+                    "notCollideWithSystems": ["e", "f"]
+                }
+            ],
             "physicsJointLimits": [
                 {
                     "limits": [

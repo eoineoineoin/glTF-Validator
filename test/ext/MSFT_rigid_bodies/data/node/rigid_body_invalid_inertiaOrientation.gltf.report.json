@@ -12,13 +12,13 @@
                 "code": "ROTATION_NON_UNIT",
                 "message": "Rotation quaternion must be normalized.",
                 "severity": 0,
-                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/rigidBody/inertiaOrientation"
+                "pointer": "/nodes/0/extensions/MSFT_rigid_bodies/motion/inertiaOrientation"
             },
             {
                 "code": "ARRAY_LENGTH_NOT_IN_LIST",
                 "message": "Invalid array length 3. Valid lengths are: (4).",
                 "severity": 0,
-                "pointer": "/nodes/1/extensions/MSFT_rigid_bodies/rigidBody/inertiaOrientation"
+                "pointer": "/nodes/1/extensions/MSFT_rigid_bodies/motion/inertiaOrientation"
             },
             {
                 "code": "UNUSED_OBJECT",
