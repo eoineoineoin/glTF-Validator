@@ -452,10 +452,11 @@ List<int> getGlIntList(Map<String, Object> map, String name, Context context,
 }
 
 List<String> getStringList(
-    Map<String, Object> map, String name, Context context) {
+    Map<String, Object> map, String name, Context context,
+    {bool allowEmpty: false}) {
   final value = _getGuarded(map, name, _kArray, context);
   if (value is List<Object>) {
-    if (value.isEmpty) {
+    if (value.isEmpty && !allowEmpty) {
       context.addIssue(SchemaError.emptyEntity, name: name);
       return null;
     }
