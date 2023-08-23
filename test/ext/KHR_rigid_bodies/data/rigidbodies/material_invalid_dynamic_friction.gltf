@@ -1,0 +1,17 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "KHR_rigid_bodies"
+    ],
+    "extensions": {
+        "KHR_rigid_bodies": {
+            "physicsMaterials": [
+                {
+                    "dynamicFriction": -1.0
+                }
+            ]
+        }
+    }
+}

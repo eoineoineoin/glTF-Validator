@@ -1,0 +1,26 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "KHR_rigid_bodies"
+    ],
+    "extensions": {
+        "KHR_rigid_bodies": {
+            "physicsJointLimits": [
+                {
+                    "limits": [
+                        {
+                            "linearAxes": [1],
+                            "springConstant": -1.0
+                        },
+                        {
+                            "angularAxes": [1],
+                            "springDamping": -1.0
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

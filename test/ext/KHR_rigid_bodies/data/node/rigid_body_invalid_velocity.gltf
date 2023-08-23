@@ -1,0 +1,20 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "KHR_rigid_bodies"
+    ],
+    "nodes": [
+        {
+            "extensions": {
+                "KHR_rigid_bodies": {
+                    "motion": {
+                        "linearVelocity": [0.0, 0.0],
+                        "angularVelocity": [0.0, 0.0]
+                    }
+                }
+            }
+        }
+    ]
+}

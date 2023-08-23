@@ -1,0 +1,56 @@
+{
+    "uri": "test/ext/KHR_rigid_bodies/data/node/rigid_body_invalid_inertiaOrientation.gltf",
+    "mimeType": "model/gltf+json",
+    "validatorVersion": "2.0.0-dev.3.9",
+    "issues": {
+        "numErrors": 2,
+        "numWarnings": 0,
+        "numInfos": 2,
+        "numHints": 0,
+        "messages": [
+            {
+                "code": "ROTATION_NON_UNIT",
+                "message": "Rotation quaternion must be normalized.",
+                "severity": 0,
+                "pointer": "/nodes/0/extensions/KHR_rigid_bodies/motion/inertiaOrientation"
+            },
+            {
+                "code": "ARRAY_LENGTH_NOT_IN_LIST",
+                "message": "Invalid array length 3. Valid lengths are: (4).",
+                "severity": 0,
+                "pointer": "/nodes/1/extensions/KHR_rigid_bodies/motion/inertiaOrientation"
+            },
+            {
+                "code": "UNUSED_OBJECT",
+                "message": "This object may be unused.",
+                "severity": 2,
+                "pointer": "/nodes/0"
+            },
+            {
+                "code": "UNUSED_OBJECT",
+                "message": "This object may be unused.",
+                "severity": 2,
+                "pointer": "/nodes/1"
+            }
+        ],
+        "truncated": false
+    },
+    "info": {
+        "version": "2.0",
+        "extensionsUsed": [
+            "KHR_rigid_bodies"
+        ],
+        "animationCount": 0,
+        "materialCount": 0,
+        "hasMorphTargets": false,
+        "hasSkins": false,
+        "hasTextures": false,
+        "hasDefaultScene": false,
+        "drawCallCount": 0,
+        "totalVertexCount": 0,
+        "totalTriangleCount": 0,
+        "maxUVs": 0,
+        "maxInfluences": 0,
+        "maxAttributes": 0
+    }
+}
