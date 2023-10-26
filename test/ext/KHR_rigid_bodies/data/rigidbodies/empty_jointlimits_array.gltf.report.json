@@ -12,7 +12,7 @@
                 "code": "EMPTY_ENTITY",
                 "message": "Entity cannot be empty.",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints"
             }
         ],
         "truncated": false

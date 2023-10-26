@@ -42,17 +42,17 @@ class RigidBodiesError extends IssueType {
 }
 
 const String PHYSICS_MATERIALS = 'physicsMaterials';
-const String PHYSICS_JOINT_LIMITS = 'physicsJointLimits';
+const String PHYSICS_JOINTS = 'physicsJoints';
 const String COLLISION_FILTERS = 'collisionFilters';
 const String STATIC_FRICTION = 'staticFriction';
 const String DYNAMIC_FRICTION = 'dynamicFriction';
 const String RESTITUTION = 'restitution';
 const String FRICTION_COMBINE = 'frictionCombine';
 const String RESTITUTION_COMBINE = 'restitutionCombine';
-const String AVERAGE = 'AVERAGE';
-const String MINIMUM = 'MINIMUM';
-const String MAXIMUM = 'MAXIMUM';
-const String MULTIPLY = 'MULTIPLY';
+const String AVERAGE = 'average';
+const String MINIMUM = 'minimum';
+const String MAXIMUM = 'maximum';
+const String MULTIPLY = 'multiply';
 const String COLLISION_SYSTEMS = 'collisionSystems';
 const String COLLIDE_WITH_SYSTEMS = 'collideWithSystems';
 const String NOT_COLLIDE_WITH_SYSTEMS = 'notCollideWithSystems';
@@ -72,17 +72,28 @@ const String LINEAR_VELOCITY = 'linearVelocity';
 const String ANGULAR_VELOCITY = 'angularVelocity';
 const String GRAVITY_FACTOR = 'gravityFactor';
 const String CONNECTED_NODE = 'connectedNode';
-const String JOINT_LIMITS = 'jointLimits';
 const String ENABLE_COLLISION = 'enableCollision';
 const String SPRING_CONSTANT = 'springConstant';
 const String SPRING_DAMPING = 'springDamping';
 const String LINEAR_AXES = 'linearAxes';
 const String ANGULAR_AXES = 'angularAxes';
 const String LIMITS = 'limits';
+const String DRIVES = 'drives';
+const String MODE = 'mode';
+const String AXIS = 'axis';
+const String POSITION_TARGET = 'positionTarget';
+const String VELOCITY_TARGET = 'velocityTarget';
+const String STIFFNESS = 'stiffness';
+const String DAMPING = 'damping';
+const String MAX_FORCE = 'maxForce';
+const String LINEAR = 'linear';
+const String ANGULAR = 'angular';
+const String FORCE = 'force';
+const String ACCELERATION = 'acceleration';
 
 const List<String> KHR_RIGID_BODIES_GLTF_MEMBERS = <String>[
   PHYSICS_MATERIALS,
-  PHYSICS_JOINT_LIMITS,
+  PHYSICS_JOINTS,
   COLLISION_FILTERS
 ];
 const List<String> KHR_RIGID_BODIES_PHYSICS_MATERIAL_MEMBERS = <String>[
@@ -103,7 +114,10 @@ const List<String> KHR_RIGIBODIES_COLLISION_FILTER_MEMBERS = <String>[
   COLLIDE_WITH_SYSTEMS,
   NOT_COLLIDE_WITH_SYSTEMS
 ];
-const List<String> KHR_RIGID_BODIES_JOINT_LIMIT_SET_MEMBERS = <String>[LIMITS];
+const List<String> KHR_RIGID_BODIES_JOINT_LIMIT_SET_MEMBERS = <String>[
+  LIMITS,
+  DRIVES
+];
 const List<String> KHR_RIGID_BODIES_JOINT_LIMIT_MEMBERS = <String>[
   MIN,
   MAX,
@@ -139,17 +153,35 @@ const List<String> KHR_RIGID_BODIES_TRIGGER_MEMBERS = <String>[
 ];
 const List<String> KHR_RIGID_BODIES_JOINT_MEMBERS = <String>[
   CONNECTED_NODE,
-  JOINT_LIMITS,
+  JOINT,
   ENABLE_COLLISION
+];
+const List<String> KHR_RIGID_BODIES_JOINT_DRIVE_MEMBERS = <String>[
+  TYPE,
+  MODE,
+  AXIS,
+  MAX_FORCE,
+  VELOCITY_TARGET,
+  DAMPING,
+  POSITION_TARGET,
+  STIFFNESS
+];
+const List<String> KHR_RIGID_BODIES_JOINT_DRIVE_TYPES = <String>[
+  LINEAR,
+  ANGULAR
+];
+const List<String> KHR_RIGID_BODIES_JOINT_DRIVE_MODES = <String>[
+  FORCE,
+  ACCELERATION
 ];
 
 class KhrRigidBodiesGltf extends GltfProperty {
   final SafeList<KhrRigidBodiesPhysicsMaterial> physicsMaterials;
   final SafeList<KhrRigidBodiesCollisionFilter> collisionFilters;
-  final SafeList<KhrRigidBodiesPhysicsJointLimitSet> jointLimits;
+  final SafeList<KhrRigidBodiesPhysicsJointDefinition> jointDefinitions;
 
   KhrRigidBodiesGltf._(this.physicsMaterials, this.collisionFilters,
-      this.jointLimits, Map<String, Object> extensions, Object extras)
+      this.jointDefinitions, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
   static KhrRigidBodiesGltf fromMap(Map<String, Object> map, Context context) {
@@ -175,18 +207,18 @@ class KhrRigidBodiesGltf extends GltfProperty {
       }
     }
 
-    var jointLimits = SafeList<KhrRigidBodiesPhysicsJointLimitSet>.empty(
-        PHYSICS_JOINT_LIMITS);
-    if (map.containsKey(PHYSICS_JOINT_LIMITS)) {
-      final jointLimitSetMaps = getMapList(map, PHYSICS_JOINT_LIMITS, context);
-      if (jointLimitSetMaps != null) {
-        jointLimits = SafeList<KhrRigidBodiesPhysicsJointLimitSet>(
-            jointLimitSetMaps.length, PHYSICS_JOINT_LIMITS);
-        context.path.add(PHYSICS_JOINT_LIMITS);
-        for (var i = 0; i < jointLimitSetMaps.length; i++) {
+    var jointDefinitions =
+        SafeList<KhrRigidBodiesPhysicsJointDefinition>.empty(PHYSICS_JOINTS);
+    if (map.containsKey(PHYSICS_JOINTS)) {
+      final jointDefMaps = getMapList(map, PHYSICS_JOINTS, context);
+      if (jointDefMaps != null) {
+        jointDefinitions = SafeList<KhrRigidBodiesPhysicsJointDefinition>(
+            jointDefMaps.length, PHYSICS_JOINTS);
+        context.path.add(PHYSICS_JOINTS);
+        for (var i = 0; i < jointDefMaps.length; i++) {
           context.path.add(i.toString());
-          jointLimits[i] = KhrRigidBodiesPhysicsJointLimitSet.fromMap(
-              jointLimitSetMaps[i], context);
+          jointDefinitions[i] = KhrRigidBodiesPhysicsJointDefinition.fromMap(
+              jointDefMaps[i], context);
           context.path.removeLast();
         }
         context.path.removeLast();
@@ -214,7 +246,7 @@ class KhrRigidBodiesGltf extends GltfProperty {
     return KhrRigidBodiesGltf._(
         materials,
         filters,
-        jointLimits,
+        jointDefinitions,
         getExtensions(map, KhrRigidBodiesGltf, context),
         getExtras(map, context));
   }
@@ -234,7 +266,7 @@ class KhrRigidBodiesGltf extends GltfProperty {
 
     linkListItems(PHYSICS_MATERIALS, physicsMaterials);
     linkListItems(COLLISION_FILTERS, collisionFilters);
-    linkListItems(PHYSICS_JOINT_LIMITS, jointLimits);
+    linkListItems(PHYSICS_JOINTS, jointDefinitions);
   }
 }
 
@@ -551,11 +583,11 @@ class KhrRigidBodiesMotion extends GltfProperty {
 class KhrRigidBodiesJoint extends GltfProperty {
   final int _connectedNodeIndex;
   Node _connectedNode;
-  final int _jointLimitsIndex;
-  KhrRigidBodiesPhysicsJointLimitSet _jointLimits;
+  final int _jointDefinitionIndex;
+  KhrRigidBodiesPhysicsJointDefinition _jointDef;
   bool enableCollision;
 
-  KhrRigidBodiesJoint._(this._connectedNodeIndex, this._jointLimitsIndex,
+  KhrRigidBodiesJoint._(this._connectedNodeIndex, this._jointDefinitionIndex,
       this.enableCollision, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
@@ -565,12 +597,12 @@ class KhrRigidBodiesJoint extends GltfProperty {
     }
 
     final connectedNode = getIndex(map, CONNECTED_NODE, context, req: false);
-    final jointLimits = getIndex(map, JOINT_LIMITS, context, req: true);
+    final jointIndex = getIndex(map, JOINT, context, req: true);
     final enableCollision = getBool(map, ENABLE_COLLISION, context);
 
     return KhrRigidBodiesJoint._(
         connectedNode,
-        jointLimits,
+        jointIndex,
         enableCollision,
         getExtensions(map, KhrRigidBodiesNode, context),
         getExtras(map, context));
@@ -590,23 +622,23 @@ class KhrRigidBodiesJoint extends GltfProperty {
 
     final rigidBodiesExtension = gltf.extensions[khrRigidBodiesExtension.name];
     if (rigidBodiesExtension is KhrRigidBodiesGltf) {
-      _jointLimits = rigidBodiesExtension.jointLimits[_jointLimitsIndex];
-      if (_jointLimitsIndex != -1) {
-        if (context.validate && _jointLimits == null) {
+      _jointDef = rigidBodiesExtension.jointDefinitions[_jointDefinitionIndex];
+      if (_jointDefinitionIndex != -1) {
+        if (context.validate && _jointDef == null) {
           context.addIssue(LinkError.unresolvedReference,
-              name: JOINT_LIMITS, args: [_jointLimitsIndex]);
-        } else if (_jointLimits != null) {
-          _jointLimits.markAsUsed();
+              name: JOINT, args: [_jointDefinitionIndex]);
+        } else if (_jointDef != null) {
+          _jointDef.markAsUsed();
         }
       }
-    } else if (context.validate && _jointLimitsIndex != -1) {
+    } else if (context.validate && _jointDefinitionIndex != -1) {
       context.addIssue(SchemaError.unsatisfiedDependency,
           args: ['/$EXTENSIONS/${khrRigidBodiesExtension.name}']);
     }
   }
 
   Node get connectedNode => _connectedNode;
-  KhrRigidBodiesPhysicsJointLimitSet get jointLimits => _jointLimits;
+  KhrRigidBodiesPhysicsJointDefinition get jointDefinition => _jointDef;
 }
 
 class KhrRigidBodiesPhysicsMaterial extends GltfChildOfRootProperty {
@@ -726,40 +758,113 @@ class KhrRigidBodiesPhysicsJointLimit extends GltfProperty {
   }
 }
 
-class KhrRigidBodiesPhysicsJointLimitSet extends GltfChildOfRootProperty {
-  List<KhrRigidBodiesPhysicsJointLimit> limits;
+class KhrRigidBodiesPhysicsJointDrive extends GltfProperty {
+  String type;
+  String mode;
+  int axis;
+  double maxForce;
+  double velocityTarget;
+  double damping;
+  double positionTarget;
+  double stiffness;
 
-  KhrRigidBodiesPhysicsJointLimitSet._(
-      this.limits, String name, Map<String, Object> extensions, Object extras)
+  KhrRigidBodiesPhysicsJointDrive._(
+      this.type,
+      this.mode,
+      this.axis,
+      this.maxForce,
+      this.velocityTarget,
+      this.damping,
+      this.positionTarget,
+      this.stiffness,
+      Map<String, Object> extensions,
+      Object extras)
+      : super(extensions, extras);
+
+  static KhrRigidBodiesPhysicsJointDrive fromMap(
+      Map<String, Object> map, Context context) {
+    if (context.validate) {
+      checkMembers(map, KHR_RIGID_BODIES_JOINT_DRIVE_MEMBERS, context);
+    }
+
+    final type = getString(map, TYPE, context,
+        list: KHR_RIGID_BODIES_JOINT_DRIVE_TYPES, req: true);
+    final mode = getString(map, MODE, context,
+        list: KHR_RIGID_BODIES_JOINT_DRIVE_MODES, req: true);
+    final axis = getUint(map, AXIS, context, req: true, min: 0, max: 2);
+    final maxForce = getFloat(map, MAX_FORCE, context, min: 0);
+    final velocityTarget = getFloat(map, VELOCITY_TARGET, context);
+    final damping = getFloat(map, DAMPING, context, def: 0, min: 0);
+    final positionTarget = getFloat(map, POSITION_TARGET, context);
+    final stiffness = getFloat(map, STIFFNESS, context, def: 0, min: 0);
+
+    return KhrRigidBodiesPhysicsJointDrive._(
+        type,
+        mode,
+        axis,
+        maxForce,
+        velocityTarget,
+        damping,
+        positionTarget,
+        stiffness,
+        getExtensions(map, KhrRigidBodiesPhysicsJointDrive, context),
+        getExtras(map, context));
+  }
+}
+
+class KhrRigidBodiesPhysicsJointDefinition extends GltfChildOfRootProperty {
+  List<KhrRigidBodiesPhysicsJointLimit> limits;
+  List<KhrRigidBodiesPhysicsJointDrive> drives;
+
+  KhrRigidBodiesPhysicsJointDefinition._(this.limits, this.drives, String name,
+      Map<String, Object> extensions, Object extras)
       : super(name, extensions, extras);
 
-  static KhrRigidBodiesPhysicsJointLimitSet fromMap(
+  static KhrRigidBodiesPhysicsJointDefinition fromMap(
       Map<String, Object> map, Context context) {
     if (context.validate) {
       checkMembers(map, KHR_RIGID_BODIES_JOINT_LIMIT_SET_MEMBERS, context);
     }
 
-    SafeList<KhrRigidBodiesPhysicsJointLimit> limits;
-    final jointLimitMaps = getMapList(map, LIMITS, context);
-    if (jointLimitMaps != null) {
-      limits = SafeList<KhrRigidBodiesPhysicsJointLimit>(
-          jointLimitMaps.length, LIMITS);
-      context.path.add(LIMITS);
-      for (var i = 0; i < jointLimitMaps.length; i++) {
-        context.path.add(i.toString());
-        limits[i] =
-            KhrRigidBodiesPhysicsJointLimit.fromMap(jointLimitMaps[i], context);
+    var limits = SafeList<KhrRigidBodiesPhysicsJointLimit>.empty(LIMITS);
+    if (map.containsKey(LIMITS)) {
+      final jointLimitMaps = getMapList(map, LIMITS, context);
+      if (jointLimitMaps != null) {
+        limits = SafeList<KhrRigidBodiesPhysicsJointLimit>(
+            jointLimitMaps.length, LIMITS);
+        context.path.add(LIMITS);
+        for (var i = 0; i < jointLimitMaps.length; i++) {
+          context.path.add(i.toString());
+          limits[i] = KhrRigidBodiesPhysicsJointLimit.fromMap(
+              jointLimitMaps[i], context);
+          context.path.removeLast();
+        }
         context.path.removeLast();
       }
-      context.path.removeLast();
-    } else {
-      limits = SafeList<KhrRigidBodiesPhysicsJointLimit>.empty(LIMITS);
     }
 
-    return KhrRigidBodiesPhysicsJointLimitSet._(
+    var drives = SafeList<KhrRigidBodiesPhysicsJointDrive>.empty(DRIVES);
+    if (map.containsKey(DRIVES)) {
+      final jointDriveMaps = getMapList(map, DRIVES, context);
+      if (jointDriveMaps != null) {
+        drives = SafeList<KhrRigidBodiesPhysicsJointDrive>(
+            jointDriveMaps.length, DRIVES);
+        context.path.add(DRIVES);
+        for (var i = 0; i < jointDriveMaps.length; i++) {
+          context.path.add(i.toString());
+          drives[i] = KhrRigidBodiesPhysicsJointDrive.fromMap(
+              jointDriveMaps[i], context);
+          context.path.removeLast();
+        }
+        context.path.removeLast();
+      }
+    }
+
+    return KhrRigidBodiesPhysicsJointDefinition._(
         limits,
+        drives,
         getName(map, context),
-        getExtensions(map, KhrRigidBodiesPhysicsJointLimitSet, context),
+        getExtensions(map, KhrRigidBodiesPhysicsJointDefinition, context),
         getExtras(map, context));
   }
 }
@@ -803,9 +908,9 @@ class KhrRigidBodiesCollisionFilter extends GltfChildOfRootProperty {
       return listOut;
     }
 
-    var collisionSystems = extractSystemList(map, COLLISION_SYSTEMS);
-    var collideWithSystems = extractSystemList(map, COLLIDE_WITH_SYSTEMS);
-    var notCollideWithSystems =
+    final collisionSystems = extractSystemList(map, COLLISION_SYSTEMS);
+    final collideWithSystems = extractSystemList(map, COLLIDE_WITH_SYSTEMS);
+    final notCollideWithSystems =
         extractSystemList(map, NOT_COLLIDE_WITH_SYSTEMS);
 
     return KhrRigidBodiesCollisionFilter._(

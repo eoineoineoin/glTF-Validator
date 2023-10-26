@@ -12,31 +12,31 @@
                 "code": "EMPTY_ENTITY",
                 "message": "Entity cannot be empty.",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/0/linearAxes"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/0/linearAxes"
             },
             {
                 "code": "KHR_RIGID_BODIES_JOINT_LIMITS_INCORRECT",
                 "message": "Joint limit should contain either linear or angular axes",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/0"
             },
             {
                 "code": "EMPTY_ENTITY",
                 "message": "Entity cannot be empty.",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/1/angularAxes"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/1/angularAxes"
             },
             {
                 "code": "KHR_RIGID_BODIES_JOINT_LIMITS_INCORRECT",
                 "message": "Joint limit should contain either linear or angular axes",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/1"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/1"
             },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0"
             }
         ],
         "truncated": false

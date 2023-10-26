@@ -35,7 +35,7 @@
                     "collideWithSystems": ["e", "f"]
                 }
             ],
-            "physicsJointLimits": [
+            "physicsJoints": [
                 {
                     "limits": [
                         {
@@ -47,6 +47,18 @@
                         },
                         {
                             "angularAxes": [0, 1, 2]
+                        }
+                    ],
+                    "drives": [
+                        {
+                            "type": "linear",
+                            "mode": "force",
+                            "axis": 0,
+                            "maxForce": 1,
+                            "velocityTarget": 2,
+                            "damping": 3,
+                            "positionTarget": 4,
+                            "stiffness": 5
                         }
                     ]
                 }
@@ -73,7 +85,7 @@
                     },
                     "joint": {
                         "connectedNode": 1,
-                        "jointLimits": 0,
+                        "joint": 0,
                         "enableCollision": false
                     }
                 }

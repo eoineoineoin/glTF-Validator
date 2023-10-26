@@ -30,7 +30,7 @@
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0"
             }
         ],
         "truncated": false

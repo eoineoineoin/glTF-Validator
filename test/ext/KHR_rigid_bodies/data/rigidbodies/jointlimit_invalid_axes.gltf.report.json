@@ -12,25 +12,25 @@
                 "code": "INVALID_INDEX",
                 "message": "Index must be a non-negative integer.",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/0/linearAxes/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/0/linearAxes/0"
             },
             {
                 "code": "KHR_RIGID_BODIES_JOINT_LIMITS_INVALID_AXIS",
                 "message": "Indices of limited axes should be in range [0,3)",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/0/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/0/0"
             },
             {
                 "code": "KHR_RIGID_BODIES_JOINT_LIMITS_INVALID_AXIS",
                 "message": "Indices of limited axes should be in range [0,3)",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/1/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/1/0"
             },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0"
             }
         ],
         "truncated": false

@@ -1,5 +1,5 @@
 {
-    "uri": "test/ext/KHR_rigid_bodies/data/rigidbodies/jointlimit_custom_property.gltf",
+    "uri": "test/ext/KHR_rigid_bodies/data/rigidbodies/jointdrive_custom_property.gltf",
     "mimeType": "model/gltf+json",
     "validatorVersion": "2.0.0-dev.3.9",
     "issues": {
@@ -12,7 +12,7 @@
                 "code": "UNEXPECTED_PROPERTY",
                 "message": "Unexpected property.",
                 "severity": 1,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/0/customProperty"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/drives/0/customProperty"
             },
             {
                 "code": "UNUSED_OBJECT",

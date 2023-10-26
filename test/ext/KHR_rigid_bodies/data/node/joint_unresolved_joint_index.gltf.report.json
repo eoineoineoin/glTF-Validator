@@ -12,7 +12,7 @@
                 "code": "UNRESOLVED_REFERENCE",
                 "message": "Unresolved reference: 1234.",
                 "severity": 0,
-                "pointer": "/nodes/0/extensions/KHR_rigid_bodies/joint/jointLimits"
+                "pointer": "/nodes/0/extensions/KHR_rigid_bodies/joint/joint"
             },
             {
                 "code": "NODE_EMPTY",
@@ -30,7 +30,7 @@
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0"
             }
         ],
         "truncated": false

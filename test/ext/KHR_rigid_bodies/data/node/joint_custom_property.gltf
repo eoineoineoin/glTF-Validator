@@ -7,7 +7,7 @@
     ],
     "extensions" : {
         "KHR_rigid_bodies" : {
-            "physicsJointLimits" : [
+            "physicsJoints" : [
                 {
                     "limits" : [
                         {
@@ -24,7 +24,7 @@
                 "KHR_rigid_bodies": {
                     "joint": {
                         "connectedNode": 1,
-                        "jointLimits": 0,
+                        "joint": 0,
                         "customProperty": true
                     }
                 }

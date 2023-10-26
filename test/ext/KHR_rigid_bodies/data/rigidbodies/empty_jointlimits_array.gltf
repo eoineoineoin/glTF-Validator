@@ -7,7 +7,7 @@
     ],
     "extensions": {
         "KHR_rigid_bodies": {
-            "physicsJointLimits": [
+            "physicsJoints": [
             ]
         }
     }

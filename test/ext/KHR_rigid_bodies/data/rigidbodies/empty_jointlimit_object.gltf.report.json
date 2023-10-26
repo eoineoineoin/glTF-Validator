@@ -12,13 +12,13 @@
                 "code": "KHR_RIGID_BODIES_JOINT_LIMITS_INCORRECT",
                 "message": "Joint limit should contain either linear or angular axes",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/0"
             },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0"
             }
         ],
         "truncated": false

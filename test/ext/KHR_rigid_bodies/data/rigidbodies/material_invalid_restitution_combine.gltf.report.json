@@ -10,7 +10,7 @@
         "messages": [
             {
                 "code": "VALUE_NOT_IN_LIST",
-                "message": "Invalid value 'INVALID'. Valid values are ('AVERAGE', 'MINIMUM', 'MAXIMUM', 'MULTIPLY').",
+                "message": "Invalid value 'INVALID'. Valid values are ('average', 'minimum', 'maximum', 'multiply').",
                 "severity": 1,
                 "pointer": "/extensions/KHR_rigid_bodies/physicsMaterials/0/restitutionCombine"
             },

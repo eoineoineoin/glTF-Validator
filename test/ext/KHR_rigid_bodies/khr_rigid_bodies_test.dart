@@ -23,16 +23,26 @@ Future main() async {
       expect(material.staticFriction, 0.25);
       expect(material.dynamicFriction, 0.5);
       expect(material.restitution, 1.0);
-      expect(material.frictionCombine, 'MAXIMUM');
-      expect(material.restitutionCombine, 'MULTIPLY');
+      expect(material.frictionCombine, 'maximum');
+      expect(material.restitutionCombine, 'multiply');
 
-      final jointLimits = rbExt.jointLimits[0].limits;
+      final joint = rbExt.jointDefinitions[0];
+      final jointLimits = joint.limits;
       expect(jointLimits[0].min, -1.0);
       expect(jointLimits[0].max, 1.0);
       expect(jointLimits[0].springConstant, 2.0);
       expect(jointLimits[0].springDamping, 4.0);
       expect(jointLimits[0].linearAxes, const [0, 1, 2]);
       expect(jointLimits[1].angularAxes, const [0, 1, 2]);
+      final jointDrive = joint.drives[0];
+      expect(jointDrive.type, 'linear');
+      expect(jointDrive.mode, 'force');
+      expect(jointDrive.axis, 0);
+      expect(jointDrive.maxForce, 1.0);
+      expect(jointDrive.velocityTarget, 2);
+      expect(jointDrive.damping, 3);
+      expect(jointDrive.positionTarget, 4);
+      expect(jointDrive.stiffness, 5);
     });
 
     test('node.KHR_rigid_bodies', () async {
@@ -58,7 +68,7 @@ Future main() async {
       expect(rbNode.motion.linearVelocity, Vector3(1, 2, 4));
       expect(rbNode.motion.angularVelocity, Vector3(-1, -2, -4));
       expect(rbNode.motion.gravityFactor, -1.0);
-      expect(rbNode.joint.jointLimits, rbExt.jointLimits[0]);
+      expect(rbNode.joint.jointDefinition, rbExt.jointDefinitions[0]);
       expect(rbNode.joint.connectedNode, gltf.nodes[1]);
       expect(rbNode.joint.enableCollision, false);
     });

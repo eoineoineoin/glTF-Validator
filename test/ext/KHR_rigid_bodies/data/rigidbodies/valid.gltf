@@ -12,8 +12,8 @@
                     "staticFriction": 0.25,
                     "dynamicFriction": 0.5,
                     "restitution": 1,
-                    "frictionCombine": "MAXIMUM",
-                    "restitutionCombine": "MULTIPLY"
+                    "frictionCombine": "maximum",
+                    "restitutionCombine": "multiply"
                 }
             ],
             "collisionFilters": [
@@ -25,7 +25,7 @@
                     "notCollideWithSystems": ["e", "f"]
                 }
             ],
-            "physicsJointLimits": [
+            "physicsJoints": [
                 {
                     "limits": [
                         {
@@ -42,6 +42,18 @@
                         {
                             "angularAxes": [0],
                             "max": 1.0
+                        }
+                    ],
+                    "drives": [
+                        {
+                            "type": "linear",
+                            "mode": "force",
+                            "axis": 0,
+                            "maxForce": 1,
+                            "velocityTarget": 2,
+                            "damping": 3,
+                            "positionTarget": 4,
+                            "stiffness": 5
                         }
                     ]
                 }

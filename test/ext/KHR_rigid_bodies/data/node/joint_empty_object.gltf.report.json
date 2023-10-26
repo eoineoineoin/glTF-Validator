@@ -10,7 +10,7 @@
         "messages": [
             {
                 "code": "UNDEFINED_PROPERTY",
-                "message": "Property 'jointLimits' must be defined.",
+                "message": "Property 'joint' must be defined.",
                 "severity": 0,
                 "pointer": "/nodes/0/extensions/KHR_rigid_bodies/joint"
             },

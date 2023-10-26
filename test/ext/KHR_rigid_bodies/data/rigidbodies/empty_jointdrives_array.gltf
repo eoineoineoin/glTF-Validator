@@ -9,9 +9,7 @@
         "KHR_rigid_bodies": {
             "physicsJoints": [
                 {
-                    "limits": [
-                        { }
-                    ]
+                    "drives": []
                 }
             ]
         }

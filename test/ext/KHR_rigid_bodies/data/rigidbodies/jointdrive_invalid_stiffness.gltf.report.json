@@ -1,18 +1,18 @@
 {
-    "uri": "test/ext/KHR_rigid_bodies/data/rigidbodies/jointlimit_custom_property.gltf",
+    "uri": "test/ext/KHR_rigid_bodies/data/rigidbodies/jointdrive_invalid_stiffness.gltf",
     "mimeType": "model/gltf+json",
     "validatorVersion": "2.0.0-dev.3.9",
     "issues": {
-        "numErrors": 0,
-        "numWarnings": 1,
+        "numErrors": 1,
+        "numWarnings": 0,
         "numInfos": 1,
         "numHints": 0,
         "messages": [
             {
-                "code": "UNEXPECTED_PROPERTY",
-                "message": "Unexpected property.",
-                "severity": 1,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/0/customProperty"
+                "code": "VALUE_NOT_IN_RANGE",
+                "message": "Value -1 is out of range.",
+                "severity": 0,
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/drives/0/stiffness"
             },
             {
                 "code": "UNUSED_OBJECT",

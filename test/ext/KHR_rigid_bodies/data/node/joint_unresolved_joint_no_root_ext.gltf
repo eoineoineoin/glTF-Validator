@@ -10,7 +10,7 @@
             "extensions": {
                 "KHR_rigid_bodies": {
                     "joint": {
-                        "jointLimits": 0
+                        "joint": 0
                     }
                 }
             }

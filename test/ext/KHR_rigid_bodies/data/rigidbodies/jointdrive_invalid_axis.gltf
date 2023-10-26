@@ -9,8 +9,12 @@
         "KHR_rigid_bodies": {
             "physicsJoints": [
                 {
-                    "limits": [
-                        { }
+                    "drives": [
+                        {
+                            "type": "linear",
+                            "mode": "force",
+                            "axis": 3
+                        }
                     ]
                 }
             ]

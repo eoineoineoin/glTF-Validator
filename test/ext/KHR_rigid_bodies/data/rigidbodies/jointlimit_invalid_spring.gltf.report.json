@@ -12,19 +12,19 @@
                 "code": "VALUE_NOT_IN_RANGE",
                 "message": "Value -1.0 is out of range.",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/0/springConstant"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/0/springConstant"
             },
             {
                 "code": "VALUE_NOT_IN_RANGE",
                 "message": "Value -1.0 is out of range.",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/1/springDamping"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/1/springDamping"
             },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0"
             }
         ],
         "truncated": false

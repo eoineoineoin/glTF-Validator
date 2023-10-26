@@ -12,19 +12,19 @@
                 "code": "DUPLICATE_ELEMENTS",
                 "message": "Duplicate element.",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/0/linearAxes/1"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/0/linearAxes/1"
             },
             {
                 "code": "DUPLICATE_ELEMENTS",
                 "message": "Duplicate element.",
                 "severity": 0,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0/limits/1/angularAxes/1"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0/limits/1/angularAxes/1"
             },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/extensions/KHR_rigid_bodies/physicsJointLimits/0"
+                "pointer": "/extensions/KHR_rigid_bodies/physicsJoints/0"
             }
         ],
         "truncated": false
