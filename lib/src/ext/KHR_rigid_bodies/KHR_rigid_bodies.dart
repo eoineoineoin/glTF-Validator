@@ -73,8 +73,6 @@ const String ANGULAR_VELOCITY = 'angularVelocity';
 const String GRAVITY_FACTOR = 'gravityFactor';
 const String CONNECTED_NODE = 'connectedNode';
 const String ENABLE_COLLISION = 'enableCollision';
-const String SPRING_CONSTANT = 'springConstant';
-const String SPRING_DAMPING = 'springDamping';
 const String LINEAR_AXES = 'linearAxes';
 const String ANGULAR_AXES = 'angularAxes';
 const String LIMITS = 'limits';
@@ -121,8 +119,8 @@ const List<String> KHR_RIGID_BODIES_JOINT_LIMIT_SET_MEMBERS = <String>[
 const List<String> KHR_RIGID_BODIES_JOINT_LIMIT_MEMBERS = <String>[
   MIN,
   MAX,
-  SPRING_CONSTANT,
-  SPRING_DAMPING,
+  STIFFNESS,
+  DAMPING,
   LINEAR_AXES,
   ANGULAR_AXES
 ];
@@ -690,15 +688,15 @@ class KhrRigidBodiesPhysicsMaterial extends GltfChildOfRootProperty {
 class KhrRigidBodiesPhysicsJointLimit extends GltfProperty {
   double min;
   double max;
-  double springConstant;
-  double springDamping;
+  double stiffness;
+  double damping;
   List<int> linearAxes;
   List<int> angularAxes;
   KhrRigidBodiesPhysicsJointLimit._(
       this.min,
       this.max,
-      this.springConstant,
-      this.springDamping,
+      this.stiffness,
+      this.damping,
       this.linearAxes,
       this.angularAxes,
       Map<String, Object> extensions,
@@ -713,8 +711,8 @@ class KhrRigidBodiesPhysicsJointLimit extends GltfProperty {
 
     final minLimit = getFloat(map, MIN, context);
     final maxLimit = getFloat(map, MAX, context);
-    final springConstant = getFloat(map, SPRING_CONSTANT, context, min: 0);
-    final springDamping = getFloat(map, SPRING_DAMPING, context, min: 0);
+    final stiffness = getFloat(map, STIFFNESS, context, min: 0);
+    final damping = getFloat(map, DAMPING, context, min: 0);
     final linLimits = getIndicesList(map, LINEAR_AXES, context);
     final angLimits = getIndicesList(map, ANGULAR_AXES, context);
 
@@ -735,8 +733,8 @@ class KhrRigidBodiesPhysicsJointLimit extends GltfProperty {
     return KhrRigidBodiesPhysicsJointLimit._(
         minLimit,
         maxLimit,
-        springConstant,
-        springDamping,
+        stiffness,
+        damping,
         linLimits,
         angLimits,
         getExtensions(map, KhrRigidBodiesPhysicsJointLimit, context),

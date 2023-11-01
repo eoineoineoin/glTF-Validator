@@ -12,11 +12,11 @@
                     "limits": [
                         {
                             "linearAxes": [1],
-                            "springConstant": -1.0
+                            "stiffness": -1.0
                         },
                         {
                             "angularAxes": [1],
-                            "springDamping": -1.0
+                            "damping": -1.0
                         }
                     ]
                 }

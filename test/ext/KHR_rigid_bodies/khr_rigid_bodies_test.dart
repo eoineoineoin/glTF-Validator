@@ -30,8 +30,8 @@ Future main() async {
       final jointLimits = joint.limits;
       expect(jointLimits[0].min, -1.0);
       expect(jointLimits[0].max, 1.0);
-      expect(jointLimits[0].springConstant, 2.0);
-      expect(jointLimits[0].springDamping, 4.0);
+      expect(jointLimits[0].stiffness, 2.0);
+      expect(jointLimits[0].damping, 4.0);
       expect(jointLimits[0].linearAxes, const [0, 1, 2]);
       expect(jointLimits[1].angularAxes, const [0, 1, 2]);
       final jointDrive = joint.drives[0];
