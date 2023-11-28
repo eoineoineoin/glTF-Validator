@@ -1,0 +1,20 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "KHR_collision_shapes",
+        "KHR_physics_rigid_bodies"
+    ],
+    "nodes": [
+        {
+            "extensions": {
+                "KHR_physics_rigid_bodies": {
+                    "collider": {
+                        "shape": 1234
+                    }
+                }
+            }
+        }
+    ]
+}

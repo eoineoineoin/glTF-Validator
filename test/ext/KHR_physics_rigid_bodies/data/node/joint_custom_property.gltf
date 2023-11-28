@@ -1,0 +1,37 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "KHR_physics_rigid_bodies"
+    ],
+    "extensions" : {
+        "KHR_physics_rigid_bodies" : {
+            "physicsJoints" : [
+                {
+                    "limits" : [
+                        {
+                            "linearAxes" : [ 0 ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "nodes": [
+        {
+            "extensions": {
+                "KHR_physics_rigid_bodies": {
+                    "joint": {
+                        "connectedNode": 1,
+                        "joint": 0,
+                        "customProperty": true
+                    }
+                }
+            }
+        },
+        {
+            "translation": [0.0, 0.0, 0.0]
+        }
+    ]
+}

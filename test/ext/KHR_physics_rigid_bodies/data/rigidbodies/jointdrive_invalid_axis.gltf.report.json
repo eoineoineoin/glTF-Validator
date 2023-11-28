@@ -1,0 +1,44 @@
+{
+    "uri": "test/ext/KHR_physics_rigid_bodies/data/rigidbodies/jointdrive_invalid_axis.gltf",
+    "mimeType": "model/gltf+json",
+    "validatorVersion": "2.0.0-dev.3.9",
+    "issues": {
+        "numErrors": 1,
+        "numWarnings": 0,
+        "numInfos": 1,
+        "numHints": 0,
+        "messages": [
+            {
+                "code": "VALUE_NOT_IN_RANGE",
+                "message": "Value 3 is out of range.",
+                "severity": 0,
+                "pointer": "/extensions/KHR_physics_rigid_bodies/physicsJoints/0/drives/0/axis"
+            },
+            {
+                "code": "UNUSED_OBJECT",
+                "message": "This object may be unused.",
+                "severity": 2,
+                "pointer": "/extensions/KHR_physics_rigid_bodies/physicsJoints/0"
+            }
+        ],
+        "truncated": false
+    },
+    "info": {
+        "version": "2.0",
+        "extensionsUsed": [
+            "KHR_physics_rigid_bodies"
+        ],
+        "animationCount": 0,
+        "materialCount": 0,
+        "hasMorphTargets": false,
+        "hasSkins": false,
+        "hasTextures": false,
+        "hasDefaultScene": false,
+        "drawCallCount": 0,
+        "totalVertexCount": 0,
+        "totalTriangleCount": 0,
+        "maxUVs": 0,
+        "maxInfluences": 0,
+        "maxAttributes": 0
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "KHR_physics_rigid_bodies"
+    ],
+    "nodes": [
+        {
+            "extensions": {
+                "KHR_physics_rigid_bodies": {
+                    "motion": {
+                        "inertiaOrientation": [0.0, 0.0, 0.0, 2.0]
+                    }
+                }
+            }
+        },
+        {
+            "extensions": {
+                "KHR_physics_rigid_bodies": {
+                    "motion": {
+                        "inertiaOrientation": [0.0, 0.0, 1.0]
+                    }
+                }
+            }
+        }
+    ]
+}

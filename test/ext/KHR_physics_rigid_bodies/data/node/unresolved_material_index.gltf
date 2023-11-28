@@ -1,0 +1,37 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "KHR_collision_shapes",
+        "KHR_physics_rigid_bodies"
+    ],
+    "extensions": {
+        "KHR_collision_shapes": {
+            "shapes": [
+                {
+                    "type": "sphere"
+                }
+            ]
+        },
+        "KHR_physics_rigid_bodies": {
+            "physicsMaterials": [
+               {
+                   "restitution": 1
+               }
+            ]
+        }
+    },
+    "nodes": [
+        {
+            "extensions": {
+                "KHR_physics_rigid_bodies": {
+                    "collider": {
+                        "shape": 0,
+                        "physicsMaterial": 1234
+                    }
+                }
+            }
+        }
+    ]
+}

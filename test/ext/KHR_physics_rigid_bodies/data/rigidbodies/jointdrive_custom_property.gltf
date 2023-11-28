@@ -1,0 +1,24 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "KHR_physics_rigid_bodies"
+    ],
+    "extensions": {
+        "KHR_physics_rigid_bodies": {
+            "physicsJoints": [
+                {
+                    "drives": [
+                        {
+                            "type": "linear",
+                            "mode": "force",
+                            "axis": 0,
+                            "customProperty": true
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
