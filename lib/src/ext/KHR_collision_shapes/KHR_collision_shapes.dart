@@ -65,10 +65,6 @@ class ShapeError extends IssueType {
       'KHR_COLLISION_SHAPES_DEGENERATE_SHAPE',
       (args) => 'Shape geometry is degenerate',
       Severity.Information);
-  static final inconsistentCapsuleGeometry = ShapeError._(
-      'KHR_COLLISION_SHAPES_INVALID_CAPSULE',
-      (args) => 'Capsule height is not sufficient to include radii');
-
   ShapeError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
       : super(type, message, severity);
@@ -275,9 +271,7 @@ class KhrCollisionShapesShapeCapsule extends KhrCollisionShapesShapeGeometry {
         context.addIssue(ShapeError.degenerateGeometry, name: HEIGHT);
       }
 
-      if (height - (radiusBottom + radiusTop) < 0) {
-        context.addIssue(ShapeError.inconsistentCapsuleGeometry);
-      } else if (height - (radiusBottom + radiusTop) < unitSumThresholdStep) {
+      if (height + radiusBottom + radiusTop < unitSumThresholdStep) {
         context.addIssue(ShapeError.degenerateGeometry);
       }
     }
