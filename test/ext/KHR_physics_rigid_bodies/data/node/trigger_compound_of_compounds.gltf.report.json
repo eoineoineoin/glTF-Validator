@@ -1,24 +1,30 @@
 {
-    "uri": "test/ext/KHR_physics_rigid_bodies/data/rigidbodies/empty_jointlimit_object.gltf",
+    "uri": "test/ext/KHR_physics_rigid_bodies/data/node/trigger_compound_of_compounds.gltf",
     "mimeType": "model/gltf+json",
     "validatorVersion": "2.0.0-dev.3.9",
     "issues": {
         "numErrors": 1,
         "numWarnings": 0,
-        "numInfos": 1,
+        "numInfos": 2,
         "numHints": 0,
         "messages": [
             {
-                "code": "ONE_OF_MISMATCH",
-                "message": "Exactly one of ('linearAxes', 'angularAxes') properties must be defined.",
+                "code": "KHR_RIGID_BODIES_TRIGGER_NODES_INVALID",
+                "message": "Trigger nodes should be simple triggers",
                 "severity": 0,
-                "pointer": "/extensions/KHR_physics_rigid_bodies/physicsJoints/0/limits/0"
+                "pointer": "/nodes/0/extensions/KHR_physics_rigid_bodies/trigger/nodes/0"
             },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/extensions/KHR_physics_rigid_bodies/physicsJoints/0"
+                "pointer": "/nodes/0"
+            },
+            {
+                "code": "UNUSED_OBJECT",
+                "message": "This object may be unused.",
+                "severity": 2,
+                "pointer": "/nodes/1"
             }
         ],
         "truncated": false
@@ -26,6 +32,7 @@
     "info": {
         "version": "2.0",
         "extensionsUsed": [
+            "KHR_collision_shapes",
             "KHR_physics_rigid_bodies"
         ],
         "animationCount": 0,

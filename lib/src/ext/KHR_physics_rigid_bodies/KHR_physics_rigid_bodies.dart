@@ -14,10 +14,6 @@ const Extension khrPhysicsRigidBodiesExtension =
 });
 
 class RigidBodiesError extends IssueType {
-  static final incorrectJointLimits = RigidBodiesError._(
-      'KHR_RIGID_BODIES_JOINT_LIMITS_INCORRECT',
-      (args) => 'Joint limit should contain either linear or angular axes');
-
   static final incorrectJointRange = RigidBodiesError._(
       'KHR_RIGID_BODIES_JOINT_INVALID_RANGE',
       (args) => 'Joint limit min (${args[0]}) should be less or equal to '
@@ -35,6 +31,10 @@ class RigidBodiesError extends IssueType {
       'KHR_RIGID_BODIES_COLLISION_FILTER_INVALID_FILTER_SET',
       (args) =>
           'Only one of collide-with and not-collide-with should be provided');
+
+  static final invalidChildTrigger = RigidBodiesError._(
+      'KHR_RIGID_BODIES_TRIGGER_NODES_INVALID',
+      (args) => 'Trigger nodes should be simple triggers');
 
   RigidBodiesError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
@@ -147,7 +147,8 @@ const List<String> KHR_RIGID_BODIES_COLLIDER_MEMBERS = <String>[
 ];
 const List<String> KHR_RIGID_BODIES_TRIGGER_MEMBERS = <String>[
   SHAPE,
-  COLLISION_FILTER
+  COLLISION_FILTER,
+  NODES
 ];
 const List<String> KHR_RIGID_BODIES_JOINT_MEMBERS = <String>[
   CONNECTED_NODE,
@@ -388,10 +389,11 @@ class KhrPhysicsRigidBodiesTrigger extends GltfProperty {
   final int _shapeIndex;
   KhrCollisionShapesShape _shape;
   final int _collisionFilterIndex;
+  final List<int> _nodes;
   KhrPhysicsRigidBodiesCollisionFilter _collisionFilter;
 
   KhrPhysicsRigidBodiesTrigger._(this._shapeIndex, this._collisionFilterIndex,
-      Map<String, Object> extensions, Object extras)
+      this._nodes, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
   static KhrPhysicsRigidBodiesTrigger fromMap(
@@ -400,11 +402,21 @@ class KhrPhysicsRigidBodiesTrigger extends GltfProperty {
       checkMembers(map, KHR_RIGID_BODIES_TRIGGER_MEMBERS, context);
     }
 
-    final shape = getIndex(map, SHAPE, context, req: true);
+    final nodes = getIndicesList(map, NODES, context, req: false);
+    final shape = getIndex(map, SHAPE, context, req: false);
     final filter = getIndex(map, COLLISION_FILTER, context, req: false);
+    if ((nodes != null) == (shape != -1)) {
+      context.addIssue(SchemaError.oneOfMismatch, args: [NODES, SHAPE]);
+    }
+    if ((nodes != null) && (filter != -1)) {
+      context
+          .addIssue(SchemaError.oneOfMismatch, args: [NODES, COLLISION_FILTER]);
+    }
+
     return KhrPhysicsRigidBodiesTrigger._(
         shape,
         filter,
+        nodes,
         getExtensions(map, KhrPhysicsRigidBodiesTrigger, context),
         getExtras(map, context));
   }
@@ -424,8 +436,28 @@ class KhrPhysicsRigidBodiesTrigger extends GltfProperty {
       _collisionFilter.link(gltf, context);
       context.path.removeLast();
     }
+    if (_nodes != null) {
+      context.path.add(NODES);
+      for (var i = 0; i < _nodes.length; i++) {
+        final nodeI = gltf.nodes[_nodes[i]];
+
+        final rbExt = nodeI.extensions[khrPhysicsRigidBodiesExtension.name];
+        if (rbExt is KhrPhysicsRigidBodiesNode &&
+            rbExt.trigger != null &&
+            rbExt.trigger.isSimple) {
+          nodeI.markAsUsed();
+        } else {
+          context.path.add(i.toString());
+          context.addIssue(RigidBodiesError.invalidChildTrigger);
+          context.path.removeLast();
+        }
+      }
+      context.path.removeLast();
+    }
   }
 
+  bool get isComposite => _nodes != null && _shapeIndex == -1;
+  bool get isSimple => _nodes == null && _shapeIndex != -1;
   KhrCollisionShapesShape get shape => _shape;
   KhrPhysicsRigidBodiesCollisionFilter get collisionFilter => _collisionFilter;
 }
@@ -731,7 +763,8 @@ class KhrPhysicsRigidBodiesPhysicsJointLimit extends GltfProperty {
 
     if (context.validate) {
       if (!((linLimits == null) ^ (angLimits == null))) {
-        context.addIssue(RigidBodiesError.incorrectJointLimits);
+        context.addIssue(SchemaError.oneOfMismatch,
+            args: [LINEAR_AXES, ANGULAR_AXES]);
       }
 
       if (minLimit > maxLimit) {

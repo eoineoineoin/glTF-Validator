@@ -9,8 +9,8 @@
         "numHints": 0,
         "messages": [
             {
-                "code": "KHR_RIGID_BODIES_JOINT_LIMITS_INCORRECT",
-                "message": "Joint limit should contain either linear or angular axes",
+                "code": "ONE_OF_MISMATCH",
+                "message": "Exactly one of ('linearAxes', 'angularAxes') properties must be defined.",
                 "severity": 0,
                 "pointer": "/extensions/KHR_physics_rigid_bodies/physicsJoints/0/limits/0"
             },
