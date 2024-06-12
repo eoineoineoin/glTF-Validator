@@ -42,15 +42,17 @@ Future main() async {
       expect(cylinder.radiusBottom, 0.5);
       expect(cylinder.radiusTop, 0.5);
 
-      final convex =
-          collisionShapes.shapes[4].geom as KhrCollisionShapesShapeConvex;
-      expect(convex, collisionShapes.shapes[4].geom);
-      expect(convex.mesh, isNotNull);
+      final convexMesh =
+          collisionShapes.shapes[4].geom as KhrCollisionShapesShapeMesh;
+      expect(convexMesh, collisionShapes.shapes[4].geom);
+      expect(convexMesh.mesh, isNotNull);
+      expect(convexMesh.convexHull, true);
 
-      final trimesh =
-          collisionShapes.shapes[5].geom as KhrCollisionShapesShapeTrimesh;
-      expect(trimesh, collisionShapes.shapes[5].geom);
-      expect(trimesh.mesh, isNotNull);
+      final triMesh =
+          collisionShapes.shapes[5].geom as KhrCollisionShapesShapeMesh;
+      expect(triMesh, collisionShapes.shapes[5].geom);
+      expect(triMesh.mesh, isNotNull);
+      expect(triMesh.convexHull, false);
     });
   });
 }

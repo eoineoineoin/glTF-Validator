@@ -41,14 +41,15 @@
                     }
                 },
                 {
-                    "type": "convex",
-                    "convex": {
-                        "mesh": 0
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": 0,
+                        "convexHull": true
                     }
                 },
                 {
-                    "type": "trimesh",
-                    "trimesh": {
+                    "type": "mesh",
+                    "mesh": {
                         "mesh": 0
                     }
                 }

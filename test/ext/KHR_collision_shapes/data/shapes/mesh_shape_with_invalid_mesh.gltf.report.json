@@ -1,5 +1,5 @@
 {
-    "uri": "test/ext/KHR_collision_shapes/data/shapes/convex_with_invalid_mesh.gltf",
+    "uri": "test/ext/KHR_collision_shapes/data/shapes/mesh_shape_with_invalid_mesh.gltf",
     "mimeType": "model/gltf+json",
     "validatorVersion": "2.0.0-dev.3.9",
     "issues": {

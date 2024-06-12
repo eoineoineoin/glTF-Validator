@@ -9,8 +9,8 @@
         "KHR_collision_shapes": {
             "shapes": [
                {
-                   "type": "convex",
-                   "convex": {
+                   "type": "mesh",
+                   "mesh": {
                        "mesh": 1234
                    }
                }

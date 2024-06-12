@@ -14,14 +14,15 @@ const String SPHERE = 'sphere';
 const String BOX = 'box';
 const String CAPSULE = 'capsule';
 const String CYLINDER = 'cylinder';
-const String CONVEX = 'convex';
-const String TRIMESH = 'trimesh';
 const String RADIUS = 'radius';
 const String RADIUS_BOTTOM = 'radiusBottom';
 const String RADIUS_TOP = 'radiusTop';
 const String SIZE = 'size';
 const String HEIGHT = 'height';
 const String MESH = 'mesh';
+const String CONVEX_HULL = 'convexHull';
+const String WEIGHTS = 'weights';
+const String SKIN = 'skin';
 
 const List<String> KHR_COLLISION_SHAPES_GLTF_MEMBERS = <String>[SHAPES];
 const List<String> KHR_COLLISION_SHAPES_SHAPE_TYPES = <String>[
@@ -29,8 +30,7 @@ const List<String> KHR_COLLISION_SHAPES_SHAPE_TYPES = <String>[
   BOX,
   CAPSULE,
   CYLINDER,
-  CONVEX,
-  TRIMESH
+  MESH
 ];
 const List<String> KHR_COLLISION_SHAPES_SHAPE_MEMBERS = <String>[
   TYPE,
@@ -38,8 +38,7 @@ const List<String> KHR_COLLISION_SHAPES_SHAPE_MEMBERS = <String>[
   BOX,
   CAPSULE,
   CYLINDER,
-  CONVEX,
-  TRIMESH
+  MESH
 ];
 const List<String> KHR_COLLISION_SHAPES_SPHERE_MEMBERS = <String>[RADIUS];
 const List<String> KHR_COLLISION_SHAPES_BOX_MEMBERS = <String>[SIZE];
@@ -53,8 +52,12 @@ const List<String> KHR_COLLISION_SHAPES_CYLINDER_MEMBERS = <String>[
   RADIUS_TOP,
   HEIGHT
 ];
-const List<String> KHR_COLLISION_SHAPES_CONVEX_MEMBERS = <String>[MESH];
-const List<String> KHR_COLLISION_SHAPES_TRIMESH_MEMBERS = <String>[MESH];
+const List<String> KHR_COLLISION_SHAPES_MESH_MEMBERS = <String>[
+  MESH,
+  CONVEX_HULL,
+  WEIGHTS,
+  SKIN
+];
 
 //<todo.eoin I really want to be able to call the DataError (etc.) constructors
 class ShapeError extends IssueType {
@@ -68,6 +71,10 @@ class ShapeError extends IssueType {
   ShapeError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
       : super(type, message, severity);
+  static final shapeWeightsInvalid = ShapeError._(
+      'SHAPE_WEIGHTS_INVALID',
+      (args) => 'The length of weights array (${args[0]}) does not match '
+          'the number of morph targets (${args[1] ?? 0}).');
 }
 
 class KhrCollisionShapesGltf extends GltfProperty {
@@ -140,8 +147,7 @@ class KhrCollisionShapesShape extends GltfChildOfRootProperty {
       KhrCollisionShapesShapeBox.fromMap,
       KhrCollisionShapesShapeCapsule.fromMap,
       KhrCollisionShapesShapeCylinder.fromMap,
-      KhrCollisionShapesShapeConvex.fromMap,
-      KhrCollisionShapesShapeTrimesh.fromMap
+      KhrCollisionShapesShapeMesh.fromMap
     ];
     assert(KHR_COLLISION_SHAPES_SHAPE_TYPES.length == typeFns.length);
 
@@ -322,76 +328,79 @@ class KhrCollisionShapesShapeCylinder extends KhrCollisionShapesShapeGeometry {
   }
 }
 
-class KhrCollisionShapesShapeConvex extends KhrCollisionShapesShapeGeometry {
+class KhrCollisionShapesShapeMesh extends KhrCollisionShapesShapeGeometry {
   final int _meshIndex;
+  final bool convexHull;
+  final int _skinIndex;
+  final List<double> weights;
   Mesh _mesh;
+  Skin _skin;
 
-  KhrCollisionShapesShapeConvex._(
-      this._meshIndex, Map<String, Object> extensions, Object extras)
+  KhrCollisionShapesShapeMesh._(
+      this._meshIndex,
+      this.convexHull,
+      this._skinIndex,
+      this.weights,
+      Map<String, Object> extensions,
+      Object extras)
       : super(extensions, extras);
 
   static KhrCollisionShapesShapeGeometry fromMap(
       Map<String, Object> map, Context context) {
     if (context.validate) {
-      checkMembers(map, KHR_COLLISION_SHAPES_CONVEX_MEMBERS, context);
+      checkMembers(map, KHR_COLLISION_SHAPES_MESH_MEMBERS, context);
     }
 
     final mesh = getIndex(map, MESH, context, req: true);
-    return KhrCollisionShapesShapeConvex._(
+    // Would like if getBool() had a 'req' parameter, but when the
+    // key does not exist, the return value matches our default
+    final convexHull = getBool(map, CONVEX_HULL, context);
+    final skinIndex = getIndex(map, SKIN, context, req: false);
+    final weightsList = getFloatList(map, WEIGHTS, context, req: false);
+    return KhrCollisionShapesShapeMesh._(
         mesh,
-        getExtensions(map, KhrCollisionShapesShapeConvex, context),
+        convexHull,
+        skinIndex,
+        weightsList,
+        getExtensions(map, KhrCollisionShapesShapeMesh, context),
         getExtras(map, context));
   }
 
   @override
   void link(Gltf gltf, Context context) {
+    _mesh = gltf.meshes[_meshIndex];
+    _skin = gltf.skins[_skinIndex];
+
     if (context.validate) {
-      _mesh = gltf.meshes[_meshIndex];
       if (_mesh == null) {
         context.addIssue(LinkError.unresolvedReference,
             name: MESH, args: [_meshIndex]);
       } else {
         _mesh.markAsUsed();
+
+        if (weights == null && _mesh.weights != null) {
+          _mesh.markWeightsAsUsed();
+        }
+
+        if (weights != null &&
+            _mesh.primitives[0].targets?.length != weights.length) {
+          context.addIssue(ShapeError.shapeWeightsInvalid,
+              name: WEIGHTS,
+              args: [weights.length, _mesh.primitives[0].targets?.length]);
+        }
+      }
+
+      if (_skinIndex != -1) {
+        if (_skin == null) {
+          context.addIssue(LinkError.unresolvedReference,
+              name: SKIN, args: [_skinIndex]);
+        } else {
+          _skin.markAsUsed();
+        }
       }
     }
   }
 
   Mesh get mesh => _mesh;
-}
-
-class KhrCollisionShapesShapeTrimesh extends KhrCollisionShapesShapeGeometry {
-  final int _meshIndex;
-  Mesh _mesh;
-
-  KhrCollisionShapesShapeTrimesh._(
-      this._meshIndex, Map<String, Object> extensions, Object extras)
-      : super(extensions, extras);
-
-  static KhrCollisionShapesShapeGeometry fromMap(
-      Map<String, Object> map, Context context) {
-    if (context.validate) {
-      checkMembers(map, KHR_COLLISION_SHAPES_TRIMESH_MEMBERS, context);
-    }
-
-    final mesh = getIndex(map, MESH, context, req: true);
-    return KhrCollisionShapesShapeTrimesh._(
-        mesh,
-        getExtensions(map, KhrCollisionShapesShapeCylinder, context),
-        getExtras(map, context));
-  }
-
-  @override
-  void link(Gltf gltf, Context context) {
-    if (context.validate) {
-      _mesh = gltf.meshes[_meshIndex];
-      if (_mesh == null) {
-        context.addIssue(LinkError.unresolvedReference,
-            name: MESH, args: [_meshIndex]);
-      } else {
-        _mesh.markAsUsed();
-      }
-    }
-  }
-
-  Mesh get mesh => _mesh;
+  Skin get skin => _skin;
 }
