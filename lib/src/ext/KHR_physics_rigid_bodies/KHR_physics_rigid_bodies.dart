@@ -10,7 +10,9 @@ const String KHR_PHYSICS_RIGID_BODIES = 'KHR_physics_rigid_bodies';
 const Extension khrPhysicsRigidBodiesExtension =
     Extension(KHR_PHYSICS_RIGID_BODIES, <Type, ExtensionDescriptor>{
   Gltf: ExtensionDescriptor(KhrPhysicsRigidBodiesGltf.fromMap),
-  Node: ExtensionDescriptor(KhrPhysicsRigidBodiesNode.fromMap)
+  Node: ExtensionDescriptor(KhrPhysicsRigidBodiesNode.fromMap),
+  KhrCollisionShapesShape:
+      ExtensionDescriptor(KhrPhysicsRigidBodiesShapeExtension.fromMap)
 });
 
 class RigidBodiesError extends IssueType {
@@ -58,6 +60,7 @@ const String COLLIDE_WITH_SYSTEMS = 'collideWithSystems';
 const String NOT_COLLIDE_WITH_SYSTEMS = 'notCollideWithSystems';
 const String COLLIDER = 'collider';
 const String SHAPE = 'shape';
+const String CONVEX_HULL = 'convexHull';
 const String PHYSICS_MATERIAL = 'physicsMaterial';
 const String COLLISION_FILTER = 'collisionFilter';
 const String TRIGGER = 'trigger';
@@ -139,6 +142,9 @@ const List<String> KHR_RIGID_BODIES_MOTION_MEMBERS = <String>[
   LINEAR_VELOCITY,
   ANGULAR_VELOCITY,
   GRAVITY_FACTOR
+];
+const List<String> KHR_RIGID_BODIES_SHAPE_EXTENSION_MEMBERS = <String>[
+  CONVEX_HULL
 ];
 const List<String> KHR_RIGID_BODIES_COLLIDER_MEMBERS = <String>[
   SHAPE,
@@ -325,6 +331,27 @@ class KhrPhysicsRigidBodiesNode extends GltfProperty {
     linkObject(COLLIDER, collider);
     linkObject(TRIGGER, trigger);
     linkObject(JOINT, joint);
+  }
+}
+
+class KhrPhysicsRigidBodiesShapeExtension extends GltfProperty {
+  final bool convexHull;
+
+  KhrPhysicsRigidBodiesShapeExtension._(
+      this.convexHull, Map<String, Object> extensions, Object extras)
+      : super(extensions, extras);
+
+  static KhrPhysicsRigidBodiesShapeExtension fromMap(
+      Map<String, Object> map, Context context) {
+    if (context.validate) {
+      checkMembers(map, KHR_RIGID_BODIES_SHAPE_EXTENSION_MEMBERS, context);
+    }
+
+    final convexHull = getBool(map, CONVEX_HULL, context);
+    return KhrPhysicsRigidBodiesShapeExtension._(
+        convexHull,
+        getExtensions(map, KhrPhysicsRigidBodiesShapeExtension, context),
+        getExtras(map, context));
   }
 }
 

@@ -20,6 +20,7 @@
             "material_invalid_restitution_combine.gltf": "Invalid restitution combine mode",
             "material_invalid_restitution.gltf": "Invalid restitution",
             "material_invalid_static_friction.gltf": "Invalid static friction",
+            "shape_custom_property.gltf": "Custom property on shape extension",
             "valid.gltf": "Valid"
         }
     },

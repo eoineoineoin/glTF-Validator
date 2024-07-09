@@ -3,9 +3,25 @@
         "version": "2.0"
     },
     "extensionsUsed": [
+        "KHR_collision_shapes",
         "KHR_physics_rigid_bodies"
     ],
     "extensions": {
+        "KHR_collision_shapes": {
+            "shapes": [
+                {
+                    "type": "sphere",
+                    "sphere": {
+                        "radius": 1.0
+                    },
+                    "extensions": {
+                        "KHR_physics_rigid_bodies": {
+                            "convexHull": true
+                        }
+                    }
+                }
+            ]
+        },
         "KHR_physics_rigid_bodies": {
             "physicsMaterials": [
                 {

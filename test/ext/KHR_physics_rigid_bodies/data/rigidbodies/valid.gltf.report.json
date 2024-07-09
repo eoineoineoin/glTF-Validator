@@ -5,9 +5,15 @@
     "issues": {
         "numErrors": 0,
         "numWarnings": 0,
-        "numInfos": 4,
+        "numInfos": 5,
         "numHints": 0,
         "messages": [
+            {
+                "code": "UNUSED_OBJECT",
+                "message": "This object may be unused.",
+                "severity": 2,
+                "pointer": "/extensions/KHR_collision_shapes/shapes/0"
+            },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
@@ -38,6 +44,7 @@
     "info": {
         "version": "2.0",
         "extensionsUsed": [
+            "KHR_collision_shapes",
             "KHR_physics_rigid_bodies"
         ],
         "animationCount": 0,

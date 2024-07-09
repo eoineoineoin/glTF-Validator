@@ -17,6 +17,14 @@ Future main() async {
               ignoreUnused: true))
           .gltf;
 
+      final csExt =
+          gltf.extensions['KHR_collision_shapes'] as KhrCollisionShapesGltf;
+      final convexHullShape = csExt.shapes[0];
+      final shapeExtension =
+          convexHullShape.extensions['KHR_physics_rigid_bodies']
+              as KhrPhysicsRigidBodiesShapeExtension;
+      expect(shapeExtension.convexHull, true);
+
       final rbExt = gltf.extensions['KHR_physics_rigid_bodies']
           as KhrPhysicsRigidBodiesGltf;
 
