@@ -63,7 +63,7 @@ Future main() async {
       final skinMesh =
           collisionShapes.shapes[7].geom as KhrCollisionShapesShapeMesh;
       expect(skinMesh, collisionShapes.shapes[7].geom);
-      expect(skinMesh.skin, 0);
+      expect(skinMesh.skin, gltf.skins[0]);
     });
   });
 }
