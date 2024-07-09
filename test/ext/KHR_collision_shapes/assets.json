@@ -18,6 +18,7 @@
             "invalid_cylinder_radius_top.gltf": "Invalid cylinder top radius",
             "invalid_sphere_radius.gltf": "Invalid sphere radius",
             "mesh_shape_with_invalid_mesh.gltf": "Mesh shape with invalid mesh references",
+            "mesh_shape_weights_and_node_weights.gltf": "Mesh shape with shape weights and node weights",
             "mesh_shape_weights_wrong_count.gltf": "Mesh shape with invalid morph target weights",
             "mesh_shape_with_invalid_skin.gltf": "Mesh shape with invalid skin reference",
             "valid.gltf": "Valid"

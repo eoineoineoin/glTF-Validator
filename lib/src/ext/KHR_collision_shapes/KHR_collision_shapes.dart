@@ -20,8 +20,8 @@ const String RADIUS_TOP = 'radiusTop';
 const String SIZE = 'size';
 const String HEIGHT = 'height';
 const String MESH = 'mesh';
-const String CONVEX_HULL = 'convexHull';
 const String WEIGHTS = 'weights';
+const String USE_NODE_WEIGHTS = 'useNodeWeights';
 const String SKIN = 'skin';
 
 const List<String> KHR_COLLISION_SHAPES_GLTF_MEMBERS = <String>[SHAPES];
@@ -54,8 +54,8 @@ const List<String> KHR_COLLISION_SHAPES_CYLINDER_MEMBERS = <String>[
 ];
 const List<String> KHR_COLLISION_SHAPES_MESH_MEMBERS = <String>[
   MESH,
-  CONVEX_HULL,
   WEIGHTS,
+  USE_NODE_WEIGHTS,
   SKIN
 ];
 
@@ -68,13 +68,17 @@ class ShapeError extends IssueType {
       'KHR_COLLISION_SHAPES_DEGENERATE_SHAPE',
       (args) => 'Shape geometry is degenerate',
       Severity.Information);
-  ShapeError._(String type, ErrorFunction message,
-      [Severity severity = Severity.Error])
-      : super(type, message, severity);
+  static final duplicateWeights = ShapeError._(
+      'KHR_COLLISION_SHAPES_DUPLICATE_WEIGHTS',
+      (args) => 'Only one of "weights" and "useNodeWeights" should be provided',
+      Severity.Error);
   static final shapeWeightsInvalid = ShapeError._(
       'SHAPE_WEIGHTS_INVALID',
       (args) => 'The length of weights array (${args[0]}) does not match '
           'the number of morph targets (${args[1] ?? 0}).');
+  ShapeError._(String type, ErrorFunction message,
+      [Severity severity = Severity.Error])
+      : super(type, message, severity);
 }
 
 class KhrCollisionShapesGltf extends GltfProperty {
@@ -330,19 +334,14 @@ class KhrCollisionShapesShapeCylinder extends KhrCollisionShapesShapeGeometry {
 
 class KhrCollisionShapesShapeMesh extends KhrCollisionShapesShapeGeometry {
   final int _meshIndex;
-  final bool convexHull;
   final int _skinIndex;
   final List<double> weights;
+  final bool useNodeWeights;
   Mesh _mesh;
   Skin _skin;
 
-  KhrCollisionShapesShapeMesh._(
-      this._meshIndex,
-      this.convexHull,
-      this._skinIndex,
-      this.weights,
-      Map<String, Object> extensions,
-      Object extras)
+  KhrCollisionShapesShapeMesh._(this._meshIndex, this._skinIndex, this.weights,
+      this.useNodeWeights, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
   static KhrCollisionShapesShapeGeometry fromMap(
@@ -352,16 +351,21 @@ class KhrCollisionShapesShapeMesh extends KhrCollisionShapesShapeGeometry {
     }
 
     final mesh = getIndex(map, MESH, context, req: true);
-    // Would like if getBool() had a 'req' parameter, but when the
-    // key does not exist, the return value matches our default
-    final convexHull = getBool(map, CONVEX_HULL, context);
     final skinIndex = getIndex(map, SKIN, context, req: false);
     final weightsList = getFloatList(map, WEIGHTS, context, req: false);
+    // Would like if getBool() had a 'req' parameter, but when the
+    // key does not exist, the return value matches our default
+    final useNodeWeights = getBool(map, USE_NODE_WEIGHTS, context);
+
+    if (weightsList != null && useNodeWeights) {
+      context.addIssue(ShapeError.duplicateWeights);
+    }
+
     return KhrCollisionShapesShapeMesh._(
         mesh,
-        convexHull,
         skinIndex,
         weightsList,
+        useNodeWeights,
         getExtensions(map, KhrCollisionShapesShapeMesh, context),
         getExtras(map, context));
   }

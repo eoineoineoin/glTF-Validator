@@ -42,17 +42,28 @@ Future main() async {
       expect(cylinder.radiusBottom, 0.5);
       expect(cylinder.radiusTop, 0.5);
 
-      final convexMesh =
+      final simpleMesh =
           collisionShapes.shapes[4].geom as KhrCollisionShapesShapeMesh;
-      expect(convexMesh, collisionShapes.shapes[4].geom);
-      expect(convexMesh.mesh, isNotNull);
-      expect(convexMesh.convexHull, true);
+      expect(simpleMesh, collisionShapes.shapes[4].geom);
+      expect(simpleMesh.mesh, isNotNull);
 
-      final triMesh =
+      final deformMesh =
           collisionShapes.shapes[5].geom as KhrCollisionShapesShapeMesh;
-      expect(triMesh, collisionShapes.shapes[5].geom);
-      expect(triMesh.mesh, isNotNull);
-      expect(triMesh.convexHull, false);
+      expect(deformMesh, collisionShapes.shapes[5].geom);
+      expect(deformMesh.mesh, isNotNull);
+      expect(deformMesh.weights, isNotNull);
+
+      final deformMesh2 =
+          collisionShapes.shapes[6].geom as KhrCollisionShapesShapeMesh;
+      expect(deformMesh2, collisionShapes.shapes[6].geom);
+      expect(deformMesh2.mesh, isNotNull);
+      expect(deformMesh2.weights, isNull);
+      expect(deformMesh2.useNodeWeights, isTrue);
+
+      final skinMesh =
+          collisionShapes.shapes[7].geom as KhrCollisionShapesShapeMesh;
+      expect(skinMesh, collisionShapes.shapes[7].geom);
+      expect(skinMesh.skin, 0);
     });
   });
 }

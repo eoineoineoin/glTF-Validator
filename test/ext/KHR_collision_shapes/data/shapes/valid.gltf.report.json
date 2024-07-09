@@ -5,7 +5,7 @@
     "issues": {
         "numErrors": 0,
         "numWarnings": 0,
-        "numInfos": 7,
+        "numInfos": 11,
         "numHints": 0,
         "messages": [
             {
@@ -13,6 +13,18 @@
                 "message": "This object may be unused.",
                 "severity": 2,
                 "pointer": "/meshes/0/primitives/0/attributes/TEXCOORD_0"
+            },
+            {
+                "code": "UNUSED_OBJECT",
+                "message": "This object may be unused.",
+                "severity": 2,
+                "pointer": "/meshes/1/primitives/0/attributes/TEXCOORD_0"
+            },
+            {
+                "code": "UNUSED_OBJECT",
+                "message": "This object may be unused.",
+                "severity": 2,
+                "pointer": "/nodes/0"
             },
             {
                 "code": "UNUSED_OBJECT",
@@ -49,6 +61,18 @@
                 "message": "This object may be unused.",
                 "severity": 2,
                 "pointer": "/extensions/KHR_collision_shapes/shapes/5"
+            },
+            {
+                "code": "UNUSED_OBJECT",
+                "message": "This object may be unused.",
+                "severity": 2,
+                "pointer": "/extensions/KHR_collision_shapes/shapes/6"
+            },
+            {
+                "code": "UNUSED_OBJECT",
+                "message": "This object may be unused.",
+                "severity": 2,
+                "pointer": "/extensions/KHR_collision_shapes/shapes/7"
             }
         ],
         "truncated": false
@@ -68,13 +92,13 @@
         ],
         "animationCount": 0,
         "materialCount": 0,
-        "hasMorphTargets": false,
-        "hasSkins": false,
+        "hasMorphTargets": true,
+        "hasSkins": true,
         "hasTextures": false,
         "hasDefaultScene": false,
-        "drawCallCount": 1,
-        "totalVertexCount": 24,
-        "totalTriangleCount": 12,
+        "drawCallCount": 2,
+        "totalVertexCount": 48,
+        "totalTriangleCount": 24,
         "maxUVs": 1,
         "maxInfluences": 0,
         "maxAttributes": 3
