@@ -1,13 +1,37 @@
 {
-    "uri": "test/ext/KHR_physics_rigid_bodies/data/rigidbodies/valid.gltf",
+    "uri": "test/ext/KHR_implicit_shapes/data/shapes/degenerate_capsule.gltf",
     "mimeType": "model/gltf+json",
     "validatorVersion": "2.0.0-dev.3.9",
     "issues": {
         "numErrors": 0,
         "numWarnings": 0,
-        "numInfos": 5,
+        "numInfos": 6,
         "numHints": 0,
         "messages": [
+            {
+                "code": "KHR_IMPLICIT_SHAPES_DEGENERATE_SHAPE",
+                "message": "Shape geometry is degenerate",
+                "severity": 2,
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/0/capsule"
+            },
+            {
+                "code": "KHR_IMPLICIT_SHAPES_DEGENERATE_SHAPE",
+                "message": "Shape geometry is degenerate",
+                "severity": 2,
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/1/capsule"
+            },
+            {
+                "code": "KHR_IMPLICIT_SHAPES_DEGENERATE_SHAPE",
+                "message": "Shape geometry is degenerate",
+                "severity": 2,
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/1/capsule/height"
+            },
+            {
+                "code": "KHR_IMPLICIT_SHAPES_DEGENERATE_SHAPE",
+                "message": "Shape geometry is degenerate",
+                "severity": 2,
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/1/capsule"
+            },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
@@ -18,25 +42,7 @@
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/extensions/KHR_physics_rigid_bodies/physicsMaterials/0"
-            },
-            {
-                "code": "UNUSED_OBJECT",
-                "message": "This object may be unused.",
-                "severity": 2,
-                "pointer": "/extensions/KHR_physics_rigid_bodies/collisionFilters/0"
-            },
-            {
-                "code": "UNUSED_OBJECT",
-                "message": "This object may be unused.",
-                "severity": 2,
-                "pointer": "/extensions/KHR_physics_rigid_bodies/collisionFilters/1"
-            },
-            {
-                "code": "UNUSED_OBJECT",
-                "message": "This object may be unused.",
-                "severity": 2,
-                "pointer": "/extensions/KHR_physics_rigid_bodies/physicsJoints/0"
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/1"
             }
         ],
         "truncated": false
@@ -44,8 +50,7 @@
     "info": {
         "version": "2.0",
         "extensionsUsed": [
-            "KHR_implicit_shapes",
-            "KHR_physics_rigid_bodies"
+            "KHR_implicit_shapes"
         ],
         "animationCount": 0,
         "materialCount": 0,

@@ -1,24 +1,18 @@
 {
-    "uri": "test/ext/KHR_physics_rigid_bodies/data/node/unresolved_material_no_root_ext.gltf",
+    "uri": "test/ext/KHR_implicit_shapes/data/shapes/empty_shapes_array.gltf",
     "mimeType": "model/gltf+json",
     "validatorVersion": "2.0.0-dev.3.9",
     "issues": {
         "numErrors": 1,
         "numWarnings": 0,
-        "numInfos": 1,
+        "numInfos": 0,
         "numHints": 0,
         "messages": [
             {
-                "code": "UNSATISFIED_DEPENDENCY",
-                "message": "Dependency failed. '/extensions/KHR_physics_rigid_bodies' must be defined.",
+                "code": "EMPTY_ENTITY",
+                "message": "Entity cannot be empty.",
                 "severity": 0,
-                "pointer": "/nodes/0/extensions/KHR_physics_rigid_bodies/collider"
-            },
-            {
-                "code": "UNUSED_OBJECT",
-                "message": "This object may be unused.",
-                "severity": 2,
-                "pointer": "/nodes/0"
+                "pointer": "/extensions/KHR_implicit_shapes/shapes"
             }
         ],
         "truncated": false
@@ -26,8 +20,7 @@
     "info": {
         "version": "2.0",
         "extensionsUsed": [
-            "KHR_implicit_shapes",
-            "KHR_physics_rigid_bodies"
+            "KHR_implicit_shapes"
         ],
         "animationCount": 0,
         "materialCount": 0,

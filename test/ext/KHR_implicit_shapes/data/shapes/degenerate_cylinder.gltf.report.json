@@ -1,30 +1,36 @@
 {
-    "uri": "test/ext/KHR_physics_rigid_bodies/data/node/unresolved_material_index.gltf",
+    "uri": "test/ext/KHR_implicit_shapes/data/shapes/degenerate_cylinder.gltf",
     "mimeType": "model/gltf+json",
     "validatorVersion": "2.0.0-dev.3.9",
     "issues": {
-        "numErrors": 1,
+        "numErrors": 0,
         "numWarnings": 0,
-        "numInfos": 2,
+        "numInfos": 4,
         "numHints": 0,
         "messages": [
             {
-                "code": "UNRESOLVED_REFERENCE",
-                "message": "Unresolved reference: 1234.",
-                "severity": 0,
-                "pointer": "/nodes/0/extensions/KHR_physics_rigid_bodies/collider/physicsMaterial"
+                "code": "KHR_IMPLICIT_SHAPES_DEGENERATE_SHAPE",
+                "message": "Shape geometry is degenerate",
+                "severity": 2,
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/0/cylinder"
+            },
+            {
+                "code": "KHR_IMPLICIT_SHAPES_DEGENERATE_SHAPE",
+                "message": "Shape geometry is degenerate",
+                "severity": 2,
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/1/cylinder/height"
             },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/nodes/0"
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/0"
             },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/extensions/KHR_physics_rigid_bodies/physicsMaterials/0"
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/1"
             }
         ],
         "truncated": false
@@ -32,8 +38,7 @@
     "info": {
         "version": "2.0",
         "extensionsUsed": [
-            "KHR_implicit_shapes",
-            "KHR_physics_rigid_bodies"
+            "KHR_implicit_shapes"
         ],
         "animationCount": 0,
         "materialCount": 0,

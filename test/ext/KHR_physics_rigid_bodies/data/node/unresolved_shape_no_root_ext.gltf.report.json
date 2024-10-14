@@ -10,9 +10,9 @@
         "messages": [
             {
                 "code": "UNSATISFIED_DEPENDENCY",
-                "message": "Dependency failed. '/extensions/KHR_collision_shapes' must be defined.",
+                "message": "Dependency failed. '/extensions/KHR_implicit_shapes' must be defined.",
                 "severity": 0,
-                "pointer": "/nodes/0/extensions/KHR_physics_rigid_bodies/collider"
+                "pointer": "/nodes/0/extensions/KHR_physics_rigid_bodies/collider/geometry"
             },
             {
                 "code": "UNUSED_OBJECT",
@@ -26,7 +26,7 @@
     "info": {
         "version": "2.0",
         "extensionsUsed": [
-            "KHR_collision_shapes",
+            "KHR_implicit_shapes",
             "KHR_physics_rigid_bodies"
         ],
         "animationCount": 0,

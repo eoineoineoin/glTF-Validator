@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:gltf/src/ext/KHR_collision_shapes/KHR_collision_shapes.dart';
+import 'package:gltf/src/ext/KHR_implicit_shapes/KHR_implicit_shapes.dart';
 import 'package:gltf/src/ext/KHR_physics_rigid_bodies/KHR_physics_rigid_bodies.dart';
 import 'package:test/test.dart';
 import 'package:vector_math/vector_math.dart';
@@ -17,13 +17,8 @@ Future main() async {
               ignoreUnused: true))
           .gltf;
 
-      final csExt =
-          gltf.extensions['KHR_collision_shapes'] as KhrCollisionShapesGltf;
-      final convexHullShape = csExt.shapes[0];
-      final shapeExtension =
-          convexHullShape.extensions['KHR_physics_rigid_bodies']
-              as KhrPhysicsRigidBodiesShapeExtension;
-      expect(shapeExtension.convexHull, true);
+      final shapesExt =
+          gltf.extensions['KHR_implicit_shapes'] as KhrImplicitShapesGltf;
 
       final rbExt = gltf.extensions['KHR_physics_rigid_bodies']
           as KhrPhysicsRigidBodiesGltf;
@@ -60,15 +55,15 @@ Future main() async {
               ignoreUnused: true))
           .gltf;
 
-      final csExt =
-          gltf.extensions['KHR_collision_shapes'] as KhrCollisionShapesGltf;
+      final shapesExt =
+          gltf.extensions['KHR_implicit_shapes'] as KhrImplicitShapesGltf;
       final rbExt = gltf.extensions['KHR_physics_rigid_bodies']
           as KhrPhysicsRigidBodiesGltf;
       final rbNode = gltf.nodes[0].extensions['KHR_physics_rigid_bodies']
           as KhrPhysicsRigidBodiesNode;
 
       expect(rbNode.collider.material, rbExt.physicsMaterials[0]);
-      expect(rbNode.collider.shape, csExt.shapes[0]);
+      expect(rbNode.collider.geometry.shape, shapesExt.shapes[0]);
       expect(rbNode.motion.isKinematic, true);
       expect(rbNode.motion.centerOfMass, Vector3(0.25, 0.5, 1));
       // Quaternion does not have an operator==, so compare the storage.
@@ -82,6 +77,11 @@ Future main() async {
       expect(rbNode.joint.jointDefinition, rbExt.jointDefinitions[0]);
       expect(rbNode.joint.connectedNode, gltf.nodes[1]);
       expect(rbNode.joint.enableCollision, false);
+
+      final rbMeshNode = gltf.nodes[2].extensions['KHR_physics_rigid_bodies']
+          as KhrPhysicsRigidBodiesNode;
+      expect(rbMeshNode.collider.geometry.node, gltf.nodes[2]);
+      expect(rbMeshNode.collider.geometry.convexHull, true);
     });
   });
 }

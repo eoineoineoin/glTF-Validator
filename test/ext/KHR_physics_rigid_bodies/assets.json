@@ -20,7 +20,6 @@
             "material_invalid_restitution_combine.gltf": "Invalid restitution combine mode",
             "material_invalid_restitution.gltf": "Invalid restitution",
             "material_invalid_static_friction.gltf": "Invalid static friction",
-            "shape_custom_property.gltf": "Custom property on shape extension",
             "valid.gltf": "Valid"
         }
     },
@@ -38,6 +37,7 @@
             "rigid_body_invalid_inertiaTensor.gltf": "Invalid inertia tensor",
             "rigid_body_invalid_mass.gltf": "Invalid mass",
             "rigid_body_invalid_velocity.gltf": "Invalid velocities",
+            "unresolved_node_index.gltf": "Unresolved node index",
             "unresolved_shape_index.gltf": "Unresolved shape - invalid index",
             "unresolved_shape_no_root_ext.gltf": "Unresolved shape - no root extension",
             "unresolved_material_index.gltf": "Unresolved material - invalid index",

@@ -3,7 +3,6 @@
         "version": "2.0"
     },
     "extensionsUsed": [
-        "KHR_implicit_shapes",
         "KHR_physics_rigid_bodies"
     ],
     "nodes": [
@@ -12,7 +11,7 @@
                 "KHR_physics_rigid_bodies": {
                     "collider": {
                         "geometry": {
-                            "shape": 1234
+                            "node": 1234
                         }
                     }
                 }

@@ -1,7 +1,7 @@
 library gltf.extensions.khr_physics_rigid_bodies;
 
 import 'package:gltf/src/base/gltf_property.dart';
-import 'package:gltf/src/ext/KHR_collision_shapes/KHR_collision_shapes.dart';
+import 'package:gltf/src/ext/KHR_implicit_shapes/KHR_implicit_shapes.dart';
 import 'package:gltf/src/ext/extensions.dart';
 import 'package:vector_math/vector_math.dart';
 
@@ -11,8 +11,6 @@ const Extension khrPhysicsRigidBodiesExtension =
     Extension(KHR_PHYSICS_RIGID_BODIES, <Type, ExtensionDescriptor>{
   Gltf: ExtensionDescriptor(KhrPhysicsRigidBodiesGltf.fromMap),
   Node: ExtensionDescriptor(KhrPhysicsRigidBodiesNode.fromMap),
-  KhrCollisionShapesShape:
-      ExtensionDescriptor(KhrPhysicsRigidBodiesShapeExtension.fromMap)
 });
 
 class RigidBodiesError extends IssueType {
@@ -61,6 +59,7 @@ const String NOT_COLLIDE_WITH_SYSTEMS = 'notCollideWithSystems';
 const String COLLIDER = 'collider';
 const String SHAPE = 'shape';
 const String CONVEX_HULL = 'convexHull';
+const String GEOMETRY = 'geometry';
 const String PHYSICS_MATERIAL = 'physicsMaterial';
 const String COLLISION_FILTER = 'collisionFilter';
 const String TRIGGER = 'trigger';
@@ -146,13 +145,18 @@ const List<String> KHR_RIGID_BODIES_MOTION_MEMBERS = <String>[
 const List<String> KHR_RIGID_BODIES_SHAPE_EXTENSION_MEMBERS = <String>[
   CONVEX_HULL
 ];
-const List<String> KHR_RIGID_BODIES_COLLIDER_MEMBERS = <String>[
+const List<String> KHR_RIGID_BODIES_GEOMETRY_MEMBERS = <String>[
   SHAPE,
+  NODE,
+  CONVEX_HULL
+];
+const List<String> KHR_RIGID_BODIES_COLLIDER_MEMBERS = <String>[
+  GEOMETRY,
   PHYSICS_MATERIAL,
   COLLISION_FILTER
 ];
 const List<String> KHR_RIGID_BODIES_TRIGGER_MEMBERS = <String>[
-  SHAPE,
+  GEOMETRY,
   COLLISION_FILTER,
   NODES
 ];
@@ -334,53 +338,31 @@ class KhrPhysicsRigidBodiesNode extends GltfProperty {
   }
 }
 
-class KhrPhysicsRigidBodiesShapeExtension extends GltfProperty {
+class KhrPhysicsRigidBodiesGeometry extends GltfProperty {
+  final int _shapeIndex;
+  KhrImplicitShapesShape _shape;
+  final int _nodeIndex;
+  Node _node;
   final bool convexHull;
 
-  KhrPhysicsRigidBodiesShapeExtension._(
+  KhrPhysicsRigidBodiesGeometry._(this._shapeIndex, this._nodeIndex,
       this.convexHull, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
-  static KhrPhysicsRigidBodiesShapeExtension fromMap(
+  static KhrPhysicsRigidBodiesGeometry fromMap(
       Map<String, Object> map, Context context) {
     if (context.validate) {
-      checkMembers(map, KHR_RIGID_BODIES_SHAPE_EXTENSION_MEMBERS, context);
+      checkMembers(map, KHR_RIGID_BODIES_GEOMETRY_MEMBERS, context);
     }
 
+    final shape = getIndex(map, SHAPE, context, req: false);
+    final node = getIndex(map, NODE, context, req: false);
     final convexHull = getBool(map, CONVEX_HULL, context);
-    return KhrPhysicsRigidBodiesShapeExtension._(
-        convexHull,
-        getExtensions(map, KhrPhysicsRigidBodiesShapeExtension, context),
-        getExtras(map, context));
-  }
-}
-
-class KhrPhysicsRigidBodiesCollider extends GltfProperty {
-  final int _shapeIndex;
-  KhrCollisionShapesShape _shape;
-  final int _physicsMaterialIndex;
-  KhrPhysicsRigidBodiesPhysicsMaterial _material;
-  final int _collisionFilterIndex;
-  KhrPhysicsRigidBodiesCollisionFilter _collisionFilter;
-
-  KhrPhysicsRigidBodiesCollider._(this._shapeIndex, this._physicsMaterialIndex,
-      this._collisionFilterIndex, Map<String, Object> extensions, Object extras)
-      : super(extensions, extras);
-
-  static KhrPhysicsRigidBodiesCollider fromMap(
-      Map<String, Object> map, Context context) {
-    if (context.validate) {
-      checkMembers(map, KHR_RIGID_BODIES_COLLIDER_MEMBERS, context);
-    }
-
-    final shape = getIndex(map, SHAPE, context, req: true);
-    final material = getIndex(map, PHYSICS_MATERIAL, context, req: false);
-    final filter = getIndex(map, COLLISION_FILTER, context, req: false);
-    return KhrPhysicsRigidBodiesCollider._(
+    return KhrPhysicsRigidBodiesGeometry._(
         shape,
-        material,
-        filter,
-        getExtensions(map, KhrPhysicsRigidBodiesCollider, context),
+        node,
+        convexHull,
+        getExtensions(map, KhrPhysicsRigidBodiesGeometry, context),
         getExtras(map, context));
   }
 
@@ -392,6 +374,54 @@ class KhrPhysicsRigidBodiesCollider extends GltfProperty {
       _shape.link(gltf, context);
       context.path.removeLast();
     }
+
+    if (_nodeIndex != -1) {
+      final nodes = List<Node>.filled(1, null);
+      resolveNodeList(
+          [_nodeIndex], nodes, gltf.nodes, NODE, context, (_n, _ni, _i) {});
+      _node = nodes[0];
+    }
+  }
+
+  KhrImplicitShapesShape get shape => _shape;
+  Node get node => _node;
+}
+
+class KhrPhysicsRigidBodiesCollider extends GltfProperty {
+  final KhrPhysicsRigidBodiesGeometry geometry;
+  final int _physicsMaterialIndex;
+  KhrPhysicsRigidBodiesPhysicsMaterial _material;
+  final int _collisionFilterIndex;
+  KhrPhysicsRigidBodiesCollisionFilter _collisionFilter;
+
+  KhrPhysicsRigidBodiesCollider._(this.geometry, this._physicsMaterialIndex,
+      this._collisionFilterIndex, Map<String, Object> extensions, Object extras)
+      : super(extensions, extras);
+
+  static KhrPhysicsRigidBodiesCollider fromMap(
+      Map<String, Object> map, Context context) {
+    if (context.validate) {
+      checkMembers(map, KHR_RIGID_BODIES_COLLIDER_MEMBERS, context);
+    }
+
+    final geometry = getObjectFromInnerMap(
+        map, GEOMETRY, context, KhrPhysicsRigidBodiesGeometry.fromMap,
+        req: true);
+    final material = getIndex(map, PHYSICS_MATERIAL, context, req: false);
+    final filter = getIndex(map, COLLISION_FILTER, context, req: false);
+    return KhrPhysicsRigidBodiesCollider._(
+        geometry,
+        material,
+        filter,
+        getExtensions(map, KhrPhysicsRigidBodiesCollider, context),
+        getExtras(map, context));
+  }
+
+  @override
+  void link(Gltf gltf, Context context) {
+    context.path.add(GEOMETRY);
+    geometry.link(gltf, context);
+    context.path.removeLast();
     _collisionFilter =
         getCollisionFilterByIndex(gltf, context, _collisionFilterIndex);
     if (_collisionFilter != null) {
@@ -407,19 +437,17 @@ class KhrPhysicsRigidBodiesCollider extends GltfProperty {
     }
   }
 
-  KhrCollisionShapesShape get shape => _shape;
   KhrPhysicsRigidBodiesPhysicsMaterial get material => _material;
   KhrPhysicsRigidBodiesCollisionFilter get collisionFilter => _collisionFilter;
 }
 
 class KhrPhysicsRigidBodiesTrigger extends GltfProperty {
-  final int _shapeIndex;
-  KhrCollisionShapesShape _shape;
+  final KhrPhysicsRigidBodiesGeometry geometry;
   final int _collisionFilterIndex;
   final List<int> _nodes;
   KhrPhysicsRigidBodiesCollisionFilter _collisionFilter;
 
-  KhrPhysicsRigidBodiesTrigger._(this._shapeIndex, this._collisionFilterIndex,
+  KhrPhysicsRigidBodiesTrigger._(this.geometry, this._collisionFilterIndex,
       this._nodes, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
@@ -430,10 +458,12 @@ class KhrPhysicsRigidBodiesTrigger extends GltfProperty {
     }
 
     final nodes = getIndicesList(map, NODES, context, req: false);
-    final shape = getIndex(map, SHAPE, context, req: false);
+    final geometry = getObjectFromInnerMap(
+        map, GEOMETRY, context, KhrPhysicsRigidBodiesGeometry.fromMap,
+        req: false);
     final filter = getIndex(map, COLLISION_FILTER, context, req: false);
-    if ((nodes != null) == (shape != -1)) {
-      context.addIssue(SchemaError.oneOfMismatch, args: [NODES, SHAPE]);
+    if ((nodes != null) == (geometry != null)) {
+      context.addIssue(SchemaError.oneOfMismatch, args: [NODES, GEOMETRY]);
     }
     if ((nodes != null) && (filter != -1)) {
       context
@@ -441,7 +471,7 @@ class KhrPhysicsRigidBodiesTrigger extends GltfProperty {
     }
 
     return KhrPhysicsRigidBodiesTrigger._(
-        shape,
+        geometry,
         filter,
         nodes,
         getExtensions(map, KhrPhysicsRigidBodiesTrigger, context),
@@ -450,10 +480,9 @@ class KhrPhysicsRigidBodiesTrigger extends GltfProperty {
 
   @override
   void link(Gltf gltf, Context context) {
-    _shape = getShapeByIndex(gltf, context, _shapeIndex);
-    if (_shape != null) {
-      context.path.add(SHAPE);
-      _shape.link(gltf, context);
+    if (geometry != null) {
+      context.path.add(GEOMETRY);
+      geometry.link(gltf, context);
       context.path.removeLast();
     }
     _collisionFilter =
@@ -483,18 +512,17 @@ class KhrPhysicsRigidBodiesTrigger extends GltfProperty {
     }
   }
 
-  bool get isComposite => _nodes != null && _shapeIndex == -1;
-  bool get isSimple => _nodes == null && _shapeIndex != -1;
-  KhrCollisionShapesShape get shape => _shape;
+  bool get isComposite => _nodes != null && geometry == null;
+  bool get isSimple => _nodes == null && geometry != null;
   KhrPhysicsRigidBodiesCollisionFilter get collisionFilter => _collisionFilter;
 }
 
-KhrCollisionShapesShape getShapeByIndex(
+KhrImplicitShapesShape getShapeByIndex(
     Gltf gltf, Context context, int shapeIndex) {
-  final collisionShapesExtension =
-      gltf.extensions[khrCollisionShapesExtension.name];
-  if (collisionShapesExtension is KhrCollisionShapesGltf) {
-    final shape = collisionShapesExtension.shapes[shapeIndex];
+  final implicitShapesExtension =
+      gltf.extensions[khrImplicitShapesExtension.name];
+  if (implicitShapesExtension is KhrImplicitShapesGltf) {
+    final shape = implicitShapesExtension.shapes[shapeIndex];
     if (shapeIndex != -1) {
       if (context.validate && shape == null) {
         context.addIssue(LinkError.unresolvedReference,
@@ -506,7 +534,7 @@ KhrCollisionShapesShape getShapeByIndex(
     return shape;
   } else if (context.validate && shapeIndex >= 0) {
     context.addIssue(SchemaError.unsatisfiedDependency,
-        args: ['/$EXTENSIONS/${khrCollisionShapesExtension.name}']);
+        args: ['/$EXTENSIONS/${khrImplicitShapesExtension.name}']);
   }
   return null;
 }

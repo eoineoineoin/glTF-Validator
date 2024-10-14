@@ -3,11 +3,11 @@
         "version": "2.0"
     },
     "extensionsUsed": [
-        "KHR_collision_shapes",
+        "KHR_implicit_shapes",
         "KHR_physics_rigid_bodies"
     ],
     "extensions": {
-        "KHR_collision_shapes": {
+        "KHR_implicit_shapes": {
             "shapes": [
                 {
                     "type": "sphere"
@@ -27,7 +27,9 @@
             "extensions": {
                 "KHR_physics_rigid_bodies": {
                     "collider": {
-                        "shape": 0,
+                        "geometry": {
+                            "shape": 0
+                        },
                         "physicsMaterial": 1234
                     }
                 }

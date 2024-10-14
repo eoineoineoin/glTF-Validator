@@ -1,18 +1,24 @@
 {
-    "uri": "test/ext/KHR_physics_rigid_bodies/data/node/valid.gltf",
+    "uri": "test/ext/KHR_implicit_shapes/data/shapes/degenerate_sphere.gltf",
     "mimeType": "model/gltf+json",
     "validatorVersion": "2.0.0-dev.3.9",
     "issues": {
         "numErrors": 0,
         "numWarnings": 0,
-        "numInfos": 1,
+        "numInfos": 2,
         "numHints": 0,
         "messages": [
+            {
+                "code": "KHR_IMPLICIT_SHAPES_DEGENERATE_SHAPE",
+                "message": "Shape geometry is degenerate",
+                "severity": 2,
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/0/sphere/radius"
+            },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
-                "pointer": "/nodes/0"
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/0"
             }
         ],
         "truncated": false
@@ -20,16 +26,7 @@
     "info": {
         "version": "2.0",
         "extensionsUsed": [
-            "KHR_implicit_shapes",
-            "KHR_physics_rigid_bodies"
-        ],
-        "resources": [
-            {
-                "pointer": "/buffers/0",
-                "mimeType": "application/gltf-buffer",
-                "storage": "data-uri",
-                "byteLength": 840
-            }
+            "KHR_implicit_shapes"
         ],
         "animationCount": 0,
         "materialCount": 0,
@@ -37,11 +34,11 @@
         "hasSkins": false,
         "hasTextures": false,
         "hasDefaultScene": false,
-        "drawCallCount": 1,
-        "totalVertexCount": 24,
-        "totalTriangleCount": 12,
+        "drawCallCount": 0,
+        "totalVertexCount": 0,
+        "totalTriangleCount": 0,
         "maxUVs": 0,
         "maxInfluences": 0,
-        "maxAttributes": 2
+        "maxAttributes": 0
     }
 }
