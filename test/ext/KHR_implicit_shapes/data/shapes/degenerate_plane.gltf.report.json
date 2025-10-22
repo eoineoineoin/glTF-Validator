@@ -1,42 +1,30 @@
 {
-    "uri": "test/ext/KHR_implicit_shapes/data/shapes/valid.gltf",
+    "uri": "test/ext/KHR_implicit_shapes/data/shapes/degenerate_plane.gltf",
     "mimeType": "model/gltf+json",
     "validatorVersion": "2.0.0-dev.3.9",
     "issues": {
         "numErrors": 0,
         "numWarnings": 0,
-        "numInfos": 5,
+        "numInfos": 3,
         "numHints": 0,
         "messages": [
+            {
+                "code": "KHR_IMPLICIT_SHAPES_DEGENERATE_SHAPE",
+                "message": "Shape geometry is degenerate",
+                "severity": 2,
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/0/plane/sizeX"
+            },
+            {
+                "code": "KHR_IMPLICIT_SHAPES_DEGENERATE_SHAPE",
+                "message": "Shape geometry is degenerate",
+                "severity": 2,
+                "pointer": "/extensions/KHR_implicit_shapes/shapes/0/plane/sizeZ"
+            },
             {
                 "code": "UNUSED_OBJECT",
                 "message": "This object may be unused.",
                 "severity": 2,
                 "pointer": "/extensions/KHR_implicit_shapes/shapes/0"
-            },
-            {
-                "code": "UNUSED_OBJECT",
-                "message": "This object may be unused.",
-                "severity": 2,
-                "pointer": "/extensions/KHR_implicit_shapes/shapes/1"
-            },
-            {
-                "code": "UNUSED_OBJECT",
-                "message": "This object may be unused.",
-                "severity": 2,
-                "pointer": "/extensions/KHR_implicit_shapes/shapes/2"
-            },
-            {
-                "code": "UNUSED_OBJECT",
-                "message": "This object may be unused.",
-                "severity": 2,
-                "pointer": "/extensions/KHR_implicit_shapes/shapes/3"
-            },
-            {
-                "code": "UNUSED_OBJECT",
-                "message": "This object may be unused.",
-                "severity": 2,
-                "pointer": "/extensions/KHR_implicit_shapes/shapes/4"
             }
         ],
         "truncated": false

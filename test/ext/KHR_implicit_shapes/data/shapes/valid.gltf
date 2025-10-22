@@ -9,6 +9,13 @@
         "KHR_implicit_shapes": {
             "shapes": [
                {
+                    "type": "plane",
+                    "plane": {
+                        "sizeX": 2.0,
+                        "sizeZ": 4.0
+                    }
+               },
+               {
                     "type": "sphere",
                     "sphere": {
                         "radius": 0.5

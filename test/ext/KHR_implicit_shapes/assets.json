@@ -6,6 +6,7 @@
             "degenerate_box.gltf": "Degenerate box",
             "degenerate_capsule.gltf": "Degenerate capsule",
             "degenerate_cylinder.gltf": "Degenerate cylinder",
+            "degenerate_plane.gltf": "Degenerate plane",
             "degenerate_sphere.gltf": "Degenerate sphere",
             "empty_collider_object.gltf": "Collider with no geometry",
             "empty_shapes_array.gltf": "Extension with empty array of shapes",

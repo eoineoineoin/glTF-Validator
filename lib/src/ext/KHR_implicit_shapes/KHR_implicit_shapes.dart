@@ -10,10 +10,14 @@ const Extension khrImplicitShapesExtension =
 });
 
 const String SHAPES = 'shapes';
+const String PLANE = 'plane';
 const String SPHERE = 'sphere';
 const String BOX = 'box';
 const String CAPSULE = 'capsule';
 const String CYLINDER = 'cylinder';
+const String DOUBLE_SIDED = 'doubleSided';
+const String SIZEX = 'sizeX';
+const String SIZEZ = 'sizeZ';
 const String RADIUS = 'radius';
 const String RADIUS_BOTTOM = 'radiusBottom';
 const String RADIUS_TOP = 'radiusTop';
@@ -26,6 +30,7 @@ const String SKIN = 'skin';
 
 const List<String> KHR_IMPLICIT_SHAPES_GLTF_MEMBERS = <String>[SHAPES];
 const List<String> KHR_IMPLICIT_SHAPES_SHAPE_TYPES = <String>[
+  PLANE,
   SPHERE,
   BOX,
   CAPSULE,
@@ -33,10 +38,16 @@ const List<String> KHR_IMPLICIT_SHAPES_SHAPE_TYPES = <String>[
 ];
 const List<String> KHR_IMPLICIT_SHAPES_SHAPE_MEMBERS = <String>[
   TYPE,
+  PLANE,
   SPHERE,
   BOX,
   CAPSULE,
   CYLINDER
+];
+const List<String> KHR_IMPLICIT_SHAPES_PLANE_MEMBERS = <String>[
+  DOUBLE_SIDED,
+  SIZEX,
+  SIZEZ
 ];
 const List<String> KHR_IMPLICIT_SHAPES_SPHERE_MEMBERS = <String>[RADIUS];
 const List<String> KHR_IMPLICIT_SHAPES_BOX_MEMBERS = <String>[SIZE];
@@ -145,6 +156,7 @@ class KhrImplicitShapesShape extends GltfChildOfRootProperty {
         list: KHR_IMPLICIT_SHAPES_SHAPE_TYPES, req: true);
 
     const typeFns = [
+      KhrImplicitShapesShapePlane.fromMap,
       KhrImplicitShapesShapeSphere.fromMap,
       KhrImplicitShapesShapeBox.fromMap,
       KhrImplicitShapesShapeCapsule.fromMap,
@@ -182,6 +194,42 @@ class KhrImplicitShapesShape extends GltfChildOfRootProperty {
 class KhrImplicitShapesShapeGeometry extends GltfProperty {
   KhrImplicitShapesShapeGeometry(Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
+}
+
+class KhrImplicitShapesShapePlane extends KhrImplicitShapesShapeGeometry {
+  final bool doubleSided;
+  final double sizeX;
+  final double sizeZ;
+
+  KhrImplicitShapesShapePlane._(this.doubleSided, this.sizeX, this.sizeZ,
+      Map<String, Object> extensions, Object extras)
+      : super(extensions, extras);
+
+  static KhrImplicitShapesShapeGeometry fromMap(
+      Map<String, Object> map, Context context) {
+    if (context.validate) {
+      checkMembers(map, KHR_IMPLICIT_SHAPES_PLANE_MEMBERS, context);
+    }
+
+    final doubleSided = getBool(map, DOUBLE_SIDED, context);
+
+    final sizeX = getFloat(map, SIZEX, context, min: 0, def: double.nan);
+    if (context.validate && !sizeX.isNaN && sizeX == 0) {
+      context.addIssue(ShapeError.degenerateGeometry, name: SIZEX);
+    }
+
+    final sizeZ = getFloat(map, SIZEZ, context, min: 0, def: double.nan);
+    if (context.validate && !sizeZ.isNaN && sizeZ == 0) {
+      context.addIssue(ShapeError.degenerateGeometry, name: SIZEZ);
+    }
+
+    return KhrImplicitShapesShapePlane._(
+        doubleSided,
+        sizeX,
+        sizeZ,
+        getExtensions(map, KhrImplicitShapesShapePlane, context),
+        getExtras(map, context));
+  }
 }
 
 class KhrImplicitShapesShapeSphere extends KhrImplicitShapesShapeGeometry {

@@ -1,0 +1,21 @@
+{
+    "asset": {
+        "version": "2.0"
+    },
+    "extensionsUsed": [
+        "KHR_implicit_shapes"
+    ],
+    "extensions": {
+        "KHR_implicit_shapes": {
+            "shapes": [
+               {
+                   "type": "plane",
+                   "plane": {
+                       "sizeX": 0.0,
+                       "sizeZ": 0.0
+                   }
+               }
+            ]
+        }
+    }
+}
