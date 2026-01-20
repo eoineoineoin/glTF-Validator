@@ -37,7 +37,7 @@
             "rigid_body_invalid_inertiaTensor.gltf": "Invalid inertia tensor",
             "rigid_body_invalid_mass.gltf": "Invalid mass",
             "rigid_body_invalid_velocity.gltf": "Invalid velocities",
-            "unresolved_node_index.gltf": "Unresolved node index",
+            "unresolved_mesh_index.gltf": "Unresolved mesh index",
             "unresolved_shape_index.gltf": "Unresolved shape - invalid index",
             "unresolved_shape_no_root_ext.gltf": "Unresolved shape - no root extension",
             "unresolved_material_index.gltf": "Unresolved material - invalid index",

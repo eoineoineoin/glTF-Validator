@@ -23,7 +23,6 @@ const String RADIUS_BOTTOM = 'radiusBottom';
 const String RADIUS_TOP = 'radiusTop';
 const String SIZE = 'size';
 const String HEIGHT = 'height';
-const String MESH = 'mesh';
 const String WEIGHTS = 'weights';
 const String USE_NODE_WEIGHTS = 'useNodeWeights';
 const String SKIN = 'skin';

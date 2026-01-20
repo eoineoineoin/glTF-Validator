@@ -11,7 +11,7 @@
                 "KHR_physics_rigid_bodies": {
                     "collider": {
                         "geometry": {
-                            "node": 1234
+                            "mesh": 1234
                         }
                     }
                 }

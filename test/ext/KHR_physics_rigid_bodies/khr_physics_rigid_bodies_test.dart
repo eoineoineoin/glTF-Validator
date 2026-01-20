@@ -80,7 +80,7 @@ Future main() async {
 
       final rbMeshNode = gltf.nodes[2].extensions['KHR_physics_rigid_bodies']
           as KhrPhysicsRigidBodiesNode;
-      expect(rbMeshNode.collider.geometry.node, gltf.nodes[2]);
+      expect(rbMeshNode.collider.geometry.mesh, gltf.meshes[0]);
       expect(rbMeshNode.collider.geometry.convexHull, true);
     });
   });

@@ -113,7 +113,7 @@
                 "KHR_physics_rigid_bodies": {
                     "collider": {
                         "geometry": {
-                            "node": 2,
+                            "mesh": 0,
                             "convexHull": true
                         }
                     }

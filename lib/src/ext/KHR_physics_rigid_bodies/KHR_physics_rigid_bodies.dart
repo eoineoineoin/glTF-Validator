@@ -147,7 +147,7 @@ const List<String> KHR_RIGID_BODIES_SHAPE_EXTENSION_MEMBERS = <String>[
 ];
 const List<String> KHR_RIGID_BODIES_GEOMETRY_MEMBERS = <String>[
   SHAPE,
-  NODE,
+  MESH,
   CONVEX_HULL
 ];
 const List<String> KHR_RIGID_BODIES_COLLIDER_MEMBERS = <String>[
@@ -341,11 +341,11 @@ class KhrPhysicsRigidBodiesNode extends GltfProperty {
 class KhrPhysicsRigidBodiesGeometry extends GltfProperty {
   final int _shapeIndex;
   KhrImplicitShapesShape _shape;
-  final int _nodeIndex;
-  Node _node;
+  final int _meshIndex;
+  Mesh _mesh;
   final bool convexHull;
 
-  KhrPhysicsRigidBodiesGeometry._(this._shapeIndex, this._nodeIndex,
+  KhrPhysicsRigidBodiesGeometry._(this._shapeIndex, this._meshIndex,
       this.convexHull, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
@@ -356,11 +356,11 @@ class KhrPhysicsRigidBodiesGeometry extends GltfProperty {
     }
 
     final shape = getIndex(map, SHAPE, context, req: false);
-    final node = getIndex(map, NODE, context, req: false);
+    final mesh = getIndex(map, MESH, context, req: false);
     final convexHull = getBool(map, CONVEX_HULL, context);
     return KhrPhysicsRigidBodiesGeometry._(
         shape,
-        node,
+        mesh,
         convexHull,
         getExtensions(map, KhrPhysicsRigidBodiesGeometry, context),
         getExtras(map, context));
@@ -375,16 +375,19 @@ class KhrPhysicsRigidBodiesGeometry extends GltfProperty {
       context.path.removeLast();
     }
 
-    if (_nodeIndex != -1) {
-      final nodes = List<Node>.filled(1, null);
-      resolveNodeList(
-          [_nodeIndex], nodes, gltf.nodes, NODE, context, (_n, _ni, _i) {});
-      _node = nodes[0];
+    if (_meshIndex != -1) {
+      _mesh = gltf.meshes[_meshIndex];
+      if (_mesh == null) {
+          context.addIssue(LinkError.unresolvedReference,
+              name: MESH, args: [_meshIndex]);
+      } else {
+          _mesh.markAsUsed();
+      }
     }
   }
 
   KhrImplicitShapesShape get shape => _shape;
-  Node get node => _node;
+  Mesh get mesh => _mesh;
 }
 
 class KhrPhysicsRigidBodiesCollider extends GltfProperty {
